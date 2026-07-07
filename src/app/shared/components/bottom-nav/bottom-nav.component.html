@@ -1,4 +1,4 @@
-<nav class="nav" aria-label="Navegación principal">
+<nav class="nav" [class.nav--hidden]="hidden()" aria-label="Navegación principal">
   @for (item of items; track item.path) {
     <a
       class="nav__item"
