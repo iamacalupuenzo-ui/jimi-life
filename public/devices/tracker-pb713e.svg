@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <defs>
+    <linearGradient id="body" x1="40" y1="30" x2="200" y2="210" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#4A463F"/>
+      <stop offset="0.5" stop-color="#2C2925"/>
+      <stop offset="1" stop-color="#1A1814"/>
+    </linearGradient>
+    <linearGradient id="edge" x1="120" y1="20" x2="120" y2="220" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#6B655C"/>
+      <stop offset="1" stop-color="#0D0C0A"/>
+    </linearGradient>
+    <pattern id="weave" width="28" height="28" patternUnits="userSpaceOnUse" patternTransform="rotate(45 120 120)">
+      <rect width="28" height="28" fill="none"/>
+      <path d="M0 7h28M0 21h28" stroke="#5A554C" stroke-width="5"/>
+    </pattern>
+  </defs>
+  <rect x="28" y="28" width="184" height="184" rx="44" fill="url(#edge)"/>
+  <rect x="34" y="34" width="172" height="172" rx="40" fill="url(#body)"/>
+  <rect x="46" y="46" width="148" height="148" rx="32" fill="url(#weave)" opacity="0.75"/>
+  <rect x="46" y="46" width="148" height="148" rx="32" fill="none" stroke="#6B655C" stroke-width="1.5" opacity="0.6"/>
+  <circle cx="120" cy="120" r="20" fill="#1A1814" stroke="#6B655C" stroke-width="1.5"/>
+  <circle cx="120" cy="120" r="7" fill="#FFB800"/>
+  <rect x="88" y="196" width="64" height="6" rx="3" fill="#0D0C0A"/>
+</svg>

@@ -1,0 +1,17 @@
+<header class="header">
+  <div class="header__deco" aria-hidden="true">
+    <span class="header__ring header__ring--lg"></span>
+    <span class="header__ring header__ring--sm"></span>
+  </div>
+
+  <div class="header__row">
+    <div class="header__text">
+      <h1 class="header__greeting">¡Hola, {{ name() }}!</h1>
+      <p class="header__subtitle">Todo tranquilo por hoy</p>
+    </div>
+
+    <button class="header__avatar" type="button" aria-label="Abrir perfil">
+      {{ initials() }}
+    </button>
+  </div>
+</header>

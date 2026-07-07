@@ -1,0 +1,165 @@
+.card {
+  position: relative;
+  overflow: hidden;
+  border-radius: var(--radius-lg);
+  background: var(--color-bg-surface);
+  border: 1px solid rgba(255, 255, 255, 0.8);
+  box-shadow: var(--shadow-card);
+  padding: var(--space-5);
+
+  &__aura {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  &--lime .card__aura { background: var(--gradient-aura-lime); }
+  &--sky .card__aura { background: var(--gradient-aura-sky); }
+  &--peach .card__aura { background: var(--gradient-aura-peach); }
+  &--mint .card__aura { background: var(--gradient-aura-mint); }
+
+  &__top {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+  }
+
+  &__name {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    color: var(--color-text-primary);
+  }
+
+  &__model {
+    margin: 2px 0 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-secondary);
+  }
+
+  &__settings {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border-default);
+    background: rgba(255, 255, 255, 0.7);
+    color: var(--color-text-secondary);
+    transition: color 0.2s ease, border-color 0.2s ease;
+
+    svg { width: 19px; height: 19px; }
+
+    &:hover {
+      color: var(--color-text-primary);
+      border-color: var(--color-border-strong);
+    }
+
+    &:focus-visible {
+      outline: 2px solid var(--color-border-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  &__stage {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: 100%;
+    padding: var(--space-4) 0;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-md);
+
+    &:focus-visible {
+      outline: 2px solid var(--color-border-focus);
+      outline-offset: 2px;
+    }
+  }
+
+  &__image {
+    width: 148px;
+    height: 148px;
+    filter: drop-shadow(0 16px 24px rgba(26, 24, 20, 0.18));
+    transition: transform 0.25s ease;
+  }
+
+  &__stage:hover .card__image {
+    transform: translateY(-4px) scale(1.02);
+  }
+
+  &__chips {
+    position: relative;
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  &__footer {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px dashed var(--color-border-default);
+    color: var(--color-text-secondary);
+  }
+
+  &__pin {
+    flex-shrink: 0;
+    width: 18px;
+    height: 18px;
+    color: var(--color-brand-hover);
+  }
+
+  &__address {
+    font-size: 13px;
+    font-weight: 500;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: var(--radius-full);
+  background: var(--color-bg-subtle);
+  border: 1px solid var(--color-border-default);
+  font-size: 12.5px;
+  font-weight: 600;
+  color: var(--color-text-secondary);
+
+  svg { width: 15px; height: 15px; }
+
+  &--success {
+    background: var(--color-success-bg);
+    border-color: var(--green-100);
+    color: var(--color-success-text);
+  }
+
+  &--danger {
+    background: var(--color-error-bg);
+    border-color: var(--red-100);
+    color: var(--color-error-text);
+  }
+
+  &--info {
+    background: var(--color-info-bg);
+    border-color: var(--blue-100);
+    color: var(--color-info-text);
+  }
+
+  &--brand {
+    background: var(--color-bg-brand-subtle);
+    border-color: var(--gold-100);
+    color: var(--gold-700);
+  }
+}

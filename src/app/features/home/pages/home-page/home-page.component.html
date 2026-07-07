@@ -1,0 +1,51 @@
+<div class="home">
+  <div class="home__glow" aria-hidden="true"></div>
+
+  <app-home-header [name]="userName" />
+
+  <section class="home__devices" aria-labelledby="devices-title">
+    <div class="toolbar">
+      <div>
+        <h2 id="devices-title" class="toolbar__title">Mis dispositivos</h2>
+        <p class="toolbar__count">{{ devices().length }} en total</p>
+      </div>
+
+      <div class="toolbar__actions">
+        <button class="toolbar__btn" type="button" aria-label="Escanear código QR">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"
+              stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+            <path d="M4 12h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="toolbar__btn" type="button" aria-label="Agregar dispositivo">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+          </svg>
+        </button>
+        <button class="toolbar__btn" type="button" aria-label="Notificaciones">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 10a6 6 0 0 1 12 0c0 4 1.5 5.5 1.5 5.5h-15S6 14 6 10ZM10 19a2.2 2.2 0 0 0 4 0"
+              stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          @if (hasAlerts()) {
+            <span class="toolbar__dot" aria-label="Tenés alertas nuevas"></span>
+          }
+        </button>
+      </div>
+    </div>
+
+    @if (devices().length > 0) {
+      <div class="home__list">
+        @for (device of devices(); track device.id) {
+          <app-device-card [device]="device" (opened)="onDeviceOpened($event)" />
+        }
+      </div>
+    } @else {
+      <div class="empty">
+        <p class="empty__title">Todavía no tenés dispositivos</p>
+        <p class="empty__hint">Agregá tu primer Jimi Tracker con el botón +</p>
+      </div>
+    }
+  </section>
+</div>

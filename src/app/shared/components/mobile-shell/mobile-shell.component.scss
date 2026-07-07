@@ -1,0 +1,38 @@
+// Shell móvil: full-screen en teléfono, marco centrado en desktop
+.shell {
+  min-height: 100dvh;
+  display: flex;
+  justify-content: center;
+  background: var(--color-bg-default);
+
+  &__viewport {
+    position: relative;
+    width: 100%;
+    max-width: 430px;
+    min-height: 100dvh;
+    display: flex;
+    flex-direction: column;
+    background: var(--color-bg-default);
+  }
+
+  &__content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    // espacio para el bottom-nav flotante
+    padding-bottom: 104px;
+  }
+}
+
+@media (min-width: 640px) {
+  .shell {
+    background:
+      var(--gradient-aura-sky),
+      var(--gradient-aura-lime),
+      var(--neutral-100);
+
+    &__viewport {
+      box-shadow: var(--shadow-card);
+    }
+  }
+}

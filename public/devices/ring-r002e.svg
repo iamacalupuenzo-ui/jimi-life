@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 240 240" fill="none">
+  <defs>
+    <linearGradient id="band" x1="50" y1="50" x2="190" y2="190" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#F5F4F2"/>
+      <stop offset="0.35" stop-color="#C9C5BE"/>
+      <stop offset="0.7" stop-color="#8F8A81"/>
+      <stop offset="1" stop-color="#D4D1CC"/>
+    </linearGradient>
+    <linearGradient id="inner" x1="80" y1="80" x2="170" y2="170" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#403D38"/>
+      <stop offset="1" stop-color="#1A1814"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.35" cy="0.3" r="0.9">
+      <stop stop-color="#FFFFFF" stop-opacity="0.9"/>
+      <stop offset="0.6" stop-color="#FFFFFF" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <circle cx="120" cy="120" r="78" fill="url(#band)"/>
+  <circle cx="120" cy="120" r="52" fill="url(#inner)"/>
+  <circle cx="120" cy="120" r="52" fill="none" stroke="#0D0C0A" stroke-width="3"/>
+  <circle cx="120" cy="120" r="78" fill="url(#glow)"/>
+  <circle cx="120" cy="120" r="78" fill="none" stroke="#A8A39B" stroke-width="1.5"/>
+  <rect x="112" y="66" width="16" height="8" rx="4" fill="#22C55E"/>
+  <rect x="98" y="160" width="10" height="5" rx="2.5" fill="#FFB800"/>
+  <rect x="132" y="160" width="10" height="5" rx="2.5" fill="#3B82F6"/>
+</svg>

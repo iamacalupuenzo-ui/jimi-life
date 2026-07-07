@@ -1,0 +1,40 @@
+// ============================================
+// FOUNDATION — tipografía, radios, sombras,
+// espaciado y gradientes de Jimi Life.
+// ============================================
+
+:root {
+  // Tipografía
+  --font-sans: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont,
+    'Segoe UI', Roboto, sans-serif;
+
+  // Radios
+  --radius-sm:   10px;
+  --radius-md:   16px;
+  --radius-lg:   24px;
+  --radius-xl:   32px;
+  --radius-full: 999px;
+
+  // Sombras
+  --shadow-card: 0 2px 8px rgba(26, 24, 20, 0.04), 0 12px 32px rgba(26, 24, 20, 0.06);
+  --shadow-float: 0 8px 24px rgba(26, 24, 20, 0.10), 0 2px 6px rgba(26, 24, 20, 0.06);
+  --shadow-nav: 0 -4px 24px rgba(26, 24, 20, 0.08);
+
+  // Espaciado
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 20px;
+  --space-6: 24px;
+  --space-8: 32px;
+  --space-10: 40px;
+
+  // Gradientes de marca
+  --gradient-brand: linear-gradient(135deg, var(--gold-300) 0%, var(--gold-500) 100%);
+  --gradient-header: linear-gradient(180deg, var(--gold-300) 0%, var(--gold-100) 62%, transparent 100%);
+  --gradient-aura-lime: radial-gradient(circle at 70% 30%, var(--aura-lime) 0%, transparent 65%);
+  --gradient-aura-sky: radial-gradient(circle at 30% 75%, var(--aura-sky) 0%, transparent 65%);
+  --gradient-aura-peach: radial-gradient(circle at 75% 80%, var(--aura-peach) 0%, transparent 60%);
+  --gradient-aura-mint: radial-gradient(circle at 25% 25%, var(--aura-mint) 0%, transparent 60%);
+}

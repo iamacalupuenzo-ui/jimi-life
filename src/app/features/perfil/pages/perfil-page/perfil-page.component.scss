@@ -1,0 +1,68 @@
+.perfil {
+  position: relative;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  &__glow {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 240px;
+    background: var(--gradient-header);
+    opacity: 0.6;
+    pointer-events: none;
+  }
+
+  &__header {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-4);
+    padding: var(--space-10) var(--space-5) var(--space-6);
+  }
+
+  &__name {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+    letter-spacing: -0.02em;
+  }
+
+  &__email {
+    margin: var(--space-1) 0 0;
+    font-size: 14px;
+    color: var(--color-text-secondary);
+    overflow-wrap: anywhere;
+  }
+
+  &__avatar {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    border: 3px solid rgba(255, 255, 255, 0.9);
+    background: linear-gradient(135deg, var(--neutral-700), var(--neutral-900));
+    color: var(--gold-300);
+    font-size: 19px;
+    font-weight: 700;
+    box-shadow: var(--shadow-float);
+  }
+
+  &__placeholder {
+    position: relative;
+    margin: 0 var(--space-4);
+    padding: var(--space-8) var(--space-5);
+    border-radius: var(--radius-lg);
+    border: 1.5px dashed var(--color-border-strong);
+    text-align: center;
+    color: var(--color-text-secondary);
+    font-size: 14px;
+
+    p { margin: 0; }
+  }
+}
