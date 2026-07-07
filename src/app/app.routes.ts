@@ -10,5 +10,10 @@ export const routes: Routes = [
     path: 'perfil',
     loadChildren: () => import('./features/perfil/perfil.routes').then((m) => m.PERFIL_ROUTES),
   },
+  {
+    path: 'dispositivo',
+    loadChildren: () =>
+      import('./features/dispositivo/dispositivo.routes').then((m) => m.DISPOSITIVO_ROUTES),
+  },
   { path: '**', redirectTo: 'home' },
 ]

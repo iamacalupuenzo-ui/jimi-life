@@ -1,0 +1,138 @@
+// Bottom sheet, day strip y location list
+.sheet {
+  position: absolute;
+  bottom: 0; left: 0; right: 0;
+  z-index: 20;
+  background: var(--neutral-0);
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -4px 32px rgba(26, 24, 20, 0.12);
+  max-height: 55vh;
+  overflow: hidden;
+  transition: max-height 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+
+  &--expanded { max-height: 85vh; overflow-y: auto; }
+
+  &__handle-btn {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+    padding: var(--space-3) var(--space-4) var(--space-2);
+    background: transparent;
+    border: none;
+  }
+
+  &__handle {
+    display: block;
+    width: 40px; height: 4px;
+    border-radius: 2px;
+    background: var(--neutral-300);
+  }
+}
+
+.day-strip {
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-1);
+  padding: var(--space-2) var(--space-4);
+  overflow-x: auto;
+  scrollbar-width: none;
+  &::-webkit-scrollbar { display: none; }
+}
+
+.day-btn {
+  flex-shrink: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: var(--space-2) var(--space-3);
+  border: none;
+  border-radius: var(--radius-md);
+  background: transparent;
+  cursor: pointer;
+  transition: background 0.15s ease;
+  &:hover { background: var(--neutral-100); }
+  &:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+
+  &__label { font-size: 11px; font-weight: 600; color: var(--color-text-secondary); text-transform: uppercase; letter-spacing: 0.04em; }
+  &__num   { font-size: 17px; font-weight: 700; color: var(--color-text-primary); }
+
+  &__dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: var(--color-text-tertiary);
+    margin-top: 2px;
+    &--active { background: var(--gold-500); }
+  }
+
+  &--active {
+    .day-btn__num { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--gold-500); color: var(--neutral-900); }
+    .day-btn__label { color: var(--color-text-primary); }
+  }
+
+  &--cal {
+    gap: 4px;
+    svg { width: 20px; height: 20px; color: var(--color-text-secondary); }
+    .day-btn__label { font-size: 12px; color: var(--color-text-secondary); text-transform: none; }
+  }
+}
+
+.loc-list {
+  list-style: none;
+  margin: 0;
+  padding: var(--space-2) var(--space-4) var(--space-6);
+  display: flex;
+  flex-direction: column;
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    left: calc(var(--space-4) + 6px);
+    top: var(--space-4); bottom: var(--space-6);
+    width: 1.5px;
+    background: var(--neutral-200);
+  }
+}
+
+.loc-item {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: var(--space-4);
+  padding: var(--space-3) 0;
+
+  &__dot {
+    flex-shrink: 0;
+    width: 14px; height: 14px;
+    border-radius: 50%;
+    background: var(--neutral-300);
+    border: 2.5px solid var(--neutral-0);
+    margin-top: 4px;
+    z-index: 1;
+  }
+
+  &--latest .loc-item__dot { background: var(--gold-500); width: 16px; height: 16px; }
+
+  &__content { flex: 1; min-width: 0; }
+
+  &__address { margin: 0; font-size: 14px; font-weight: 600; color: var(--color-text-primary); line-height: 1.4; }
+  &--latest .loc-item__address { font-weight: 700; font-size: 15px; }
+
+  &__meta { display: flex; align-items: center; gap: var(--space-2); margin-top: var(--space-1); }
+  &__bt   { width: 14px; height: 14px; color: var(--blue-500); }
+  &__time { font-size: 13px; font-weight: 500; color: var(--color-text-secondary); }
+
+  &__nav {
+    flex-shrink: 0;
+    display: grid; place-items: center;
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    background: var(--gold-50);
+    border: none;
+    color: var(--gold-600);
+    margin-top: 2px;
+    svg { width: 18px; height: 18px; }
+    &:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+  }
+}

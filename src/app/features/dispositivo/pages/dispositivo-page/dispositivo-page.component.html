@@ -1,0 +1,88 @@
+<div class="disp">
+
+  <!-- Mapa full-screen -->
+  <div class="disp__map">
+    @if (device()) {
+      <app-device-map
+        [locations]="locations()"
+        [deviceImageUrl]="device()!.imageUrl"
+      />
+    }
+  </div>
+
+  <!-- Botón volver -->
+  <button class="disp__back" type="button" (click)="goBack()" aria-label="Volver">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    </svg>
+  </button>
+
+  <!-- Botón settings -->
+  <button class="disp__settings" type="button" aria-label="Configuración del dispositivo">
+    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/>
+      <path d="M19.1 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.5-2.3 1a7.1 7.1 0 0 0-2-1.1L14.2 3h-4l-.4 2.5a7 7 0 0 0-2.1 1.2l-2.3-1-2 3.5 2 1.4a7 7 0 0 0 0 2.4l-2 1.5 2 3.5 2.3-1a7 7 0 0 0 2.1 1.2l.4 2.5h4l.4-2.5a7 7 0 0 0 2.1-1.2l2.3 1 2-3.5-2-1.4c.06-.4.1-.8.1-1.2Z"
+        stroke="currentColor" stroke-width="1.5"/>
+    </svg>
+  </button>
+
+  <!-- Bottom sheet -->
+  <div class="sheet" [class.sheet--expanded]="sheetExpanded()">
+    <button class="sheet__handle-btn" type="button" (click)="toggleSheet()" aria-label="Expandir panel">
+      <span class="sheet__handle"></span>
+    </button>
+
+    <!-- Day picker -->
+    <div class="day-strip">
+      @for (day of days(); track day.key) {
+        <button
+          class="day-btn"
+          [class.day-btn--active]="activeDay() === day.key"
+          type="button"
+          (click)="selectDay(day.key)"
+        >
+          <span class="day-btn__label">{{ day.label }}</span>
+          <span class="day-btn__num">{{ day.dayNum }}</span>
+          @if (day.hasData) {
+            <span class="day-btn__dot" [class.day-btn__dot--active]="activeDay() === day.key"></span>
+          }
+        </button>
+      }
+
+      <button class="day-btn day-btn--cal" type="button" aria-label="Abrir calendario">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="4" width="18" height="18" rx="3" stroke="currentColor" stroke-width="1.7"/>
+          <path d="M3 9h18M8 2v4M16 2v4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+        <span class="day-btn__label">Jul</span>
+      </button>
+    </div>
+
+    <!-- Location history list -->
+    <ul class="loc-list" role="list">
+      @for (loc of locations(); track loc.timestamp) {
+        <li class="loc-item" [class.loc-item--latest]="loc.isLatest">
+          <span class="loc-item__dot"></span>
+          <div class="loc-item__content">
+            <p class="loc-item__address">{{ loc.address }}</p>
+            <div class="loc-item__meta">
+              @if (loc.isBluetoothSync) {
+                <svg class="loc-item__bt" viewBox="0 0 24 24" fill="none" aria-label="Sincronizado por Bluetooth">
+                  <path d="M6.5 8 17 16.5l-5 4v-17l5 4L6.5 16" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                </svg>
+              }
+              <span class="loc-item__time">{{ loc.timestamp }}</span>
+            </div>
+          </div>
+          @if (loc.isLatest) {
+            <button class="loc-item__nav" type="button" aria-label="Navegar a esta ubicación">
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          }
+        </li>
+      }
+    </ul>
+  </div>
+</div>
