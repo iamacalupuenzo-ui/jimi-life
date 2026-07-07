@@ -1,15 +1,119 @@
 <div class="perfil">
   <div class="perfil__glow" aria-hidden="true"></div>
 
+  <!-- Header -->
   <header class="perfil__header">
-    <div>
+    <div class="perfil__user">
       <h1 class="perfil__name">{{ userName }}</h1>
       <p class="perfil__email">{{ email }}</p>
     </div>
-    <span class="perfil__avatar" aria-hidden="true">GA</span>
+
+    <div class="perfil__avatar-wrap">
+      <span class="perfil__avatar" aria-hidden="true">
+        <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <circle cx="100" cy="100" r="100" fill="#3A3530"/>
+          <path d="M42 200 Q44 155 62 148 L75 160 Q100 170 125 160 L138 148 Q156 155 158 200Z" fill="#FFB800"/>
+          <rect x="88" y="138" width="24" height="26" rx="12" fill="#F2A97A"/>
+          <path d="M62 148 Q75 136 88 138 L88 155 Q75 158 62 165Z" fill="#E8A200"/>
+          <path d="M138 148 Q125 136 112 138 L112 155 Q125 158 138 165Z" fill="#E8A200"/>
+          <ellipse cx="100" cy="108" rx="34" ry="38" fill="#F2A97A"/>
+          <ellipse cx="66" cy="110" rx="7" ry="9" fill="#F2A97A"/>
+          <ellipse cx="134" cy="110" rx="7" ry="9" fill="#E89060"/>
+          <path d="M68 100 Q66 72 100 66 Q134 72 132 100 Q128 76 100 72 Q72 76 68 100Z" fill="#1C1410"/>
+          <ellipse cx="69" cy="94" rx="10" ry="16" fill="#1C1410"/>
+          <ellipse cx="131" cy="94" rx="10" ry="16" fill="#1C1410"/>
+          <path d="M76 78 Q82 62 100 66 Q84 70 80 80Z" fill="#2A1E14"/>
+          <path d="M124 78 Q118 62 100 66 Q116 70 120 80Z" fill="#2A1E14"/>
+          <path d="M88 68 Q100 58 112 68 Q100 64 88 68Z" fill="#2A1E14"/>
+          <path d="M82 104 Q88 100 94 102" stroke="#3D2B1A" stroke-width="2.5" stroke-linecap="round"/>
+          <path d="M106 102 Q112 100 118 104" stroke="#3D2B1A" stroke-width="2.5" stroke-linecap="round"/>
+          <ellipse cx="89" cy="112" rx="6" ry="7" fill="white"/>
+          <ellipse cx="111" cy="112" rx="6" ry="7" fill="white"/>
+          <ellipse cx="90" cy="113" rx="4" ry="5" fill="#2A1810"/>
+          <ellipse cx="112" cy="113" rx="4" ry="5" fill="#2A1810"/>
+          <circle cx="91.5" cy="111" r="1.5" fill="white"/>
+          <circle cx="113.5" cy="111" r="1.5" fill="white"/>
+          <path d="M97 122 Q100 130 103 122" stroke="#E08860" stroke-width="1.8" stroke-linecap="round" fill="none"/>
+          <path d="M88 134 Q100 144 112 134" stroke="#D07050" stroke-width="2" stroke-linecap="round" fill="none"/>
+          <ellipse cx="78" cy="128" rx="9" ry="5" fill="#F0A090" opacity="0.35"/>
+          <ellipse cx="122" cy="128" rx="9" ry="5" fill="#F0A090" opacity="0.35"/>
+        </svg>
+      </span>
+
+      <!-- botón circular con lápiz -->
+      <button class="perfil__edit-btn" type="button" aria-label="Editar foto de perfil">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25Z" fill="white"/>
+          <path d="M20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z" fill="#CCCCCC"/>
+        </svg>
+      </button>
+    </div>
   </header>
 
-  <div class="perfil__placeholder">
-    <p>Próximamente: pedidos, dispositivos, configuración y ayuda.</p>
+  <!-- Stat cards -->
+  <div class="stats">
+    <div class="stat-card">
+      <div class="stat-card__top">
+        <span class="stat-card__title">Orders</span>
+        <span class="stat-card__icon stat-card__icon--orange">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M6 3h12a1 1 0 0 1 1 1v16l-7-3-7 3V4a1 1 0 0 1 1-1Z" fill="currentColor"/>
+          </svg>
+        </span>
+      </div>
+      <p class="stat-card__value">{{ orders.total }}</p>
+      <p class="stat-card__sub"><span class="stat-card__sub-count">{{ orders.inUse }}</span>/{{ orders.total }} In use</p>
+    </div>
+
+    <div class="stat-card">
+      <div class="stat-card__top">
+        <span class="stat-card__title">Devices</span>
+        <span class="stat-card__icon stat-card__icon--green">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="4" y="14" width="16" height="4" rx="2" fill="currentColor"/>
+            <rect x="4" y="9" width="16" height="4" rx="2" fill="currentColor" opacity="0.6"/>
+            <rect x="4" y="4" width="16" height="4" rx="2" fill="currentColor" opacity="0.3"/>
+          </svg>
+        </span>
+      </div>
+      <p class="stat-card__value">{{ devices.active }}</p>
+      <p class="stat-card__sub"><span class="stat-card__sub-count">{{ devices.active }}</span>/{{ devices.total }} Active</p>
+    </div>
   </div>
+
+  <!-- Menu -->
+  <nav class="menu" aria-label="Opciones de perfil">
+    @for (item of menuItems; track item.id) {
+      <a class="menu__item" [href]="item.href" role="button" [attr.aria-label]="item.label">
+        <span class="menu__icon-wrap">
+          @switch (item.id) {
+            @case ('settings') {
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M19.1 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.5-2.3 1a7.1 7.1 0 0 0-2-1.1L14.2 3h-4l-.4 2.5a7 7 0 0 0-2.1 1.2l-2.3-1-2 3.5 2 1.4a7 7 0 0 0 0 2.4l-2 1.5 2 3.5 2.3-1a7 7 0 0 0 2 1.2l.4 2.5h4l.4-2.5a7 7 0 0 0 2.1-1.2l2.3 1 2-3.5-2-1.4c.06-.4.1-.8.1-1.2Z"
+                  stroke="currentColor" stroke-width="1.5"/>
+              </svg>
+            }
+            @case ('help') {
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="4" y="3" width="16" height="18" rx="2" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M8 8h8M8 12h8M8 16h5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+              </svg>
+            }
+            @case ('about') {
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="9" stroke="currentColor" stroke-width="1.7"/>
+                <path d="M12 11v5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+                <circle cx="12" cy="8" r="0.8" fill="currentColor"/>
+              </svg>
+            }
+          }
+        </span>
+        <span class="menu__label">{{ item.label }}</span>
+        <svg class="menu__chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 18l6-6-6-6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </a>
+    }
+  </nav>
 </div>

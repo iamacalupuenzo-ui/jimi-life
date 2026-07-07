@@ -23,7 +23,7 @@ radial-gradients), superficies con blur y bordes blancos translúcidos.
 
 ## Criterios de componentes
 - Bottom nav: flotante, blur, pill con gradiente dorado en el ítem activo
-- Device cards: aura pastel + imagen de producto grande con drop-shadow
+- Device cards: rectangulares compactas — thumbnail 68px izquierda + nombre/chips + dirección al pie; aura pastel sutil (0.45)
 - Chips de estado: success (batería ok), danger (batería baja), info (bluetooth), brand (contigo)
 - Estados explícitos: default, hover, focus-visible, empty
 - Iconos: SVG inline stroke 1.6–1.8, tamaños 15/19/20/22px
@@ -31,3 +31,4 @@ radial-gradients), superficies con blur y bordes blancos translúcidos.
 
 ## Historial de cambios de estilo
 - 2026-07-07 — Setup inicial: paleta dorada + auras pastel + nav gradiente — brief de Enzo (refs Jimi Life app + bento gradients)
+- 2026-07-07 — Device cards: de hero grande a rectangular compacta (estándar Jimi Life app) — pedido de Enzo con captura de referencia

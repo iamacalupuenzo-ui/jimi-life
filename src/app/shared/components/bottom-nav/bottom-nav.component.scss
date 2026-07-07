@@ -5,7 +5,6 @@
   transform: translateX(-50%);
   width: 100%;
   max-width: 430px;
-  padding: 0 var(--space-4) calc(var(--space-4) + env(safe-area-inset-bottom));
   z-index: 50;
 }
 
@@ -13,28 +12,21 @@
   display: flex;
   justify-content: space-around;
   align-items: center;
-  padding: var(--space-2);
-  border-radius: var(--radius-xl);
-  background: rgba(255, 255, 255, 0.86);
-  backdrop-filter: blur(18px);
-  -webkit-backdrop-filter: blur(18px);
-  border: 1px solid rgba(255, 255, 255, 0.7);
-  box-shadow: var(--shadow-float);
+  padding: var(--space-3) var(--space-4) calc(var(--space-4) + env(safe-area-inset-bottom));
+  background: #FFFFFF;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -2px 20px rgba(26, 24, 20, 0.08);
 
   &__item {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
-    padding: var(--space-1) var(--space-5);
+    gap: 4px;
+    padding: var(--space-2) var(--space-8);
     text-decoration: none;
-    color: var(--color-text-tertiary);
-    border-radius: var(--radius-lg);
+    color: var(--neutral-400);
+    border-radius: var(--radius-md);
     transition: color 0.2s ease;
-
-    &:hover {
-      color: var(--color-text-secondary);
-    }
 
     &:focus-visible {
       outline: 2px solid var(--color-border-focus);
@@ -42,33 +34,49 @@
     }
   }
 
-  &__pill {
+  &__icon-wrap {
     display: grid;
     place-items: center;
-    width: 44px;
-    height: 30px;
-    border-radius: var(--radius-full);
-    transition: background 0.25s ease, box-shadow 0.25s ease;
+    width: 28px;
+    height: 28px;
   }
 
   &__icon {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
+
+    &--home {
+      fill: var(--neutral-300);
+      stroke: none;
+      transition: fill 0.2s ease;
+    }
+
+    &--user {
+      fill: var(--neutral-300);
+      transition: fill 0.2s ease;
+    }
   }
 
   &__label {
     font-size: 11px;
     font-weight: 600;
-    letter-spacing: 0.02em;
+    letter-spacing: 0.01em;
+    color: var(--neutral-400);
+    transition: color 0.2s ease;
   }
 
+  // Estado activo
   &__item--active {
-    color: var(--color-brand-emphasis);
+    .nav__icon--home {
+      fill: var(--gold-500);
+    }
 
-    .nav__pill {
-      background: var(--gradient-brand);
-      box-shadow: 0 4px 12px rgba(255, 184, 0, 0.35);
-      color: var(--neutral-900);
+    .nav__icon--user {
+      fill: var(--gold-500);
+    }
+
+    .nav__label {
+      color: var(--gold-700);
     }
   }
 }
