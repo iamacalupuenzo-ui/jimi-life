@@ -1,6 +1,8 @@
 .header {
   position: relative;
-  padding: var(--space-8) var(--space-5) var(--space-6);
+  // Contempla el área segura (barra de estado / notch): el amarillo se funde
+  // hacia arriba y el contenido queda por debajo de la barra.
+  padding: calc(env(safe-area-inset-top, 0px) + var(--space-6)) var(--space-5) var(--space-6);
   overflow: hidden;
 
   &__deco {
@@ -34,7 +36,7 @@
   &__row {
     position: relative;
     display: flex;
-    align-items: center;
+    align-items: flex-start;
     justify-content: space-between;
     gap: var(--space-4);
   }

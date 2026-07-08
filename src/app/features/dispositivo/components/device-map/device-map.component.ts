@@ -21,6 +21,10 @@ export class DeviceMapComponent implements OnInit, OnDestroy {
   readonly showTrail = input<boolean>(true)
   /** Posición actual del teléfono; dibuja el punto azul de "mi ubicación". */
   readonly userLocation = input<{ lat: number; lng: number } | null>(null)
+  /** Píxeles para elevar el punto enfocado (deja aire arriba del sheet). */
+  readonly focusRaise = input<number>(0)
+  /** Padding inferior del encuadre: reserva el alto del bottom sheet. */
+  readonly fitPaddingBottom = input<number>(60)
   readonly markerClicked = output<LocationPoint>()
 
   private map!: L.Map
@@ -89,15 +93,24 @@ export class DeviceMapComponent implements OnInit, OnDestroy {
     const bounds = L.latLngBounds(coords)
 
     // Si todos los puntos coinciden (p. ej. dispositivo == mi ubicación),
-    // no hay caja que encuadrar: centramos con un zoom fijo.
+    // no hay caja que encuadrar: centramos con un zoom fijo, elevando el
+    // punto para que no quede pegado al bottom sheet.
     if (coords.length === 1 || bounds.getNorthEast().equals(bounds.getSouthWest())) {
-      this.map.setView(bounds.getCenter(), 16)
+      const zoom = 16
+      const center = bounds.getCenter()
+      const raise = this.focusRaise()
+      if (raise > 0) {
+        const shifted = this.map.project(center, zoom).add([0, raise])
+        this.map.setView(this.map.unproject(shifted, zoom), zoom)
+      } else {
+        this.map.setView(center, zoom)
+      }
       return
     }
 
     this.map.fitBounds(bounds, {
       paddingTopLeft: [50, 110],
-      paddingBottomRight: [50, 60],
+      paddingBottomRight: [50, this.fitPaddingBottom()],
       maxZoom: 16,
     })
   }
