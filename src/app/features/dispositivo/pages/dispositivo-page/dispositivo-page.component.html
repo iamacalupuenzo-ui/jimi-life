@@ -27,15 +27,17 @@
   </button>
 
   <!-- Bottom sheet -->
-  <div class="sheet" [class.sheet--expanded]="sheetExpanded()">
-    <button class="sheet__handle-btn" type="button" (click)="toggleSheet()" [attr.aria-label]="sheetExpanded() ? 'Contraer panel' : 'Expandir panel'">
-      <span class="sheet__chevron" aria-hidden="true">
-        <svg viewBox="0 0 24 24" fill="none">
-          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-        </svg>
-      </span>
-      <span class="sheet__handle"></span>
-    </button>
+  <div class="sheet" [class.sheet--collapsed]="!sheetExpanded()">
+    <div
+      class="sheet__grab"
+      role="button" tabindex="0"
+      aria-label="Arrastrar para contraer o expandir el panel"
+      (pointerdown)="onSheetGrab($event)"
+      (click)="toggleSheet()"
+      (keydown.enter)="toggleSheet()"
+    >
+      <span class="sheet__grab-bar"></span>
+    </div>
 
     <!-- Day picker fijo (no scrollea con la lista) -->
     <div class="day-picker">

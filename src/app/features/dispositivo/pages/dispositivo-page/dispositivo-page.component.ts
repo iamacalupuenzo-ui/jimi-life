@@ -50,11 +50,34 @@ export class DispositivoPageComponent implements OnInit, AfterViewInit {
     target?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
   }
 
+  goBack(): void {
+    this.router.navigate(['/home'])
+  }
+
   toggleSheet(): void {
     this.sheetExpanded.update((v) => !v)
   }
 
-  goBack(): void {
-    this.router.navigate(['/home'])
+  onSheetGrab(event: PointerEvent): void {
+    const startY = event.clientY
+    const target = event.currentTarget as HTMLElement
+    target.setPointerCapture(event.pointerId)
+
+    const move = (e: PointerEvent) => {
+      const delta = e.clientY - startY
+      if (delta > 60) this.sheetExpanded.set(false)
+      else if (delta < -60) this.sheetExpanded.set(true)
+    }
+    const up = (e: PointerEvent) => {
+      target.removeEventListener('pointermove', move)
+      target.removeEventListener('pointerup', up)
+      try {
+        target.releasePointerCapture(e.pointerId)
+      } catch {
+        /* noop */
+      }
+    }
+    target.addEventListener('pointermove', move)
+    target.addEventListener('pointerup', up)
   }
 }

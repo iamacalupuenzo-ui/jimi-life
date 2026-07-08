@@ -1,6 +1,6 @@
 <div class="shell">
   <div class="shell__viewport">
-    <main class="shell__content">
+    <main class="shell__content" [class.shell__content--no-clearance]="hideNavClearance()">
       <ng-content />
     </main>
     <ng-content select="[shell-nav]" />

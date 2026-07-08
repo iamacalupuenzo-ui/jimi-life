@@ -1,8 +1,15 @@
 @use './dispositivo-sheet';
 
+// El host (app-dispositivo-page) no debe generar su propia caja: así .disp
+// queda como hijo flex directo de .shell__content y su flex:1 1 auto aplica.
+:host {
+  display: contents;
+}
+
 .disp {
   position: relative;
-  height: 100dvh;
+  flex: 1 1 auto;
+  min-height: 0;
   display: flex;
   flex-direction: column;
   overflow: hidden;
