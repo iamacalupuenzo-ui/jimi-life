@@ -14,12 +14,21 @@
       </span>
 
       <!-- botón circular con lápiz -->
-      <button class="perfil__edit-btn" type="button" aria-label="Editar foto de perfil">
+      <button class="perfil__edit-btn" type="button" (click)="fileInput.click()" aria-label="Cambiar foto de perfil">
         <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
           <path d="M3 17.25V21h3.75L17.81 9.94l-3.75-3.75L3 17.25Z" fill="white"/>
           <path d="M20.71 7.04a1 1 0 0 0 0-1.41l-2.34-2.34a1 1 0 0 0-1.41 0l-1.83 1.83 3.75 3.75 1.83-1.83Z" fill="#CCCCCC"/>
         </svg>
       </button>
+      <input
+        #fileInput
+        class="perfil__file"
+        type="file"
+        accept="image/*"
+        (change)="onPhotoSelected($event)"
+        aria-hidden="true"
+        tabindex="-1"
+      />
     </div>
   </header>
 

@@ -1,9 +1,10 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core'
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core'
+import { AvatarService } from '../../services/avatar.service'
 
 /**
- * Ilustración de avatar del usuario. Fuente única compartida entre el header
- * del Home y la vista de Perfil. Rellena su contenedor (circular por defecto
- * del padre); los colores son propios de la ilustración.
+ * Avatar del usuario. Fuente única compartida entre el header del Home y la
+ * vista de Perfil. Muestra la foto elegida por el usuario si existe, o la
+ * ilustración por defecto. Rellena su contenedor (circular por el padre).
  */
 @Component({
   selector: 'app-user-avatar',
@@ -11,9 +12,13 @@ import { ChangeDetectionStrategy, Component } from '@angular/core'
   changeDetection: ChangeDetectionStrategy.OnPush,
   styles: [`
     :host { display: inline-flex; line-height: 0; width: 100%; height: 100%; }
-    svg { width: 100%; height: 100%; display: block; }
+    svg, img { width: 100%; height: 100%; display: block; }
+    img { object-fit: cover; }
   `],
   template: `
+    @if (photo(); as src) {
+      <img [src]="src" alt="" aria-hidden="true" />
+    } @else {
     <svg viewBox="0 0 200 200" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
       <circle cx="100" cy="100" r="100" fill="#3A3530"/>
       <path d="M42 200 Q44 155 62 148 L75 160 Q100 170 125 160 L138 148 Q156 155 158 200Z" fill="#FFB800"/>
@@ -42,6 +47,9 @@ import { ChangeDetectionStrategy, Component } from '@angular/core'
       <ellipse cx="78" cy="128" rx="9" ry="5" fill="#F0A090" opacity="0.35"/>
       <ellipse cx="122" cy="128" rx="9" ry="5" fill="#F0A090" opacity="0.35"/>
     </svg>
+    }
   `,
 })
-export class UserAvatarComponent {}
+export class UserAvatarComponent {
+  readonly photo = inject(AvatarService).photo
+}
