@@ -17,6 +17,10 @@ export class DeviceMapComponent implements OnInit, OnDestroy {
 
   readonly locations = input.required<LocationPoint[]>()
   readonly deviceImageUrl = input<string>('')
+  /** false = solo el dispositivo (última ubicación), sin la traza histórica. */
+  readonly showTrail = input<boolean>(true)
+  /** Posición actual del teléfono; dibuja el punto azul de "mi ubicación". */
+  readonly userLocation = input<{ lat: number; lng: number } | null>(null)
   readonly markerClicked = output<LocationPoint>()
 
   private map!: L.Map
@@ -43,8 +47,9 @@ export class DeviceMapComponent implements OnInit, OnDestroy {
       attributionControl: false,
     })
 
-    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/rastertiles/voyager/{z}/{x}/{y}{r}.png', {
       maxZoom: 19,
+      subdomains: ['a', 'b', 'c', 'd'],
     }).addTo(this.map)
 
     this.renderMarkers(points)
@@ -54,7 +59,10 @@ export class DeviceMapComponent implements OnInit, OnDestroy {
     this.markers.forEach((m) => m.remove())
     this.markers = []
 
-    points.forEach((point, i) => {
+    // En modo "solo dispositivo" mostramos únicamente la última ubicación.
+    const visible = this.showTrail() ? points : points.slice(0, 1)
+
+    visible.forEach((point, i) => {
       const isLatest = i === 0
       const icon = isLatest ? this.heroIcon() : this.dotIcon()
       const marker = L.marker([point.lat, point.lng], { icon })
@@ -63,9 +71,49 @@ export class DeviceMapComponent implements OnInit, OnDestroy {
       this.markers.push(marker)
     })
 
-    if (points.length > 0) {
-      this.map.setView([points[0].lat, points[0].lng], 15)
+    const user = this.userLocation()
+    if (user) {
+      const marker = L.marker([user.lat, user.lng], { icon: this.userIcon() }).addTo(this.map)
+      this.markers.push(marker)
     }
+
+    this.fitView(visible, user)
+  }
+
+  // Encuadra la vista para que se vean tanto el dispositivo como mi ubicación.
+  private fitView(points: LocationPoint[], user: { lat: number; lng: number } | null): void {
+    const coords = points.map((p) => L.latLng(p.lat, p.lng))
+    if (user) coords.push(L.latLng(user.lat, user.lng))
+    if (coords.length === 0) return
+
+    const bounds = L.latLngBounds(coords)
+
+    // Si todos los puntos coinciden (p. ej. dispositivo == mi ubicación),
+    // no hay caja que encuadrar: centramos con un zoom fijo.
+    if (coords.length === 1 || bounds.getNorthEast().equals(bounds.getSouthWest())) {
+      this.map.setView(bounds.getCenter(), 16)
+      return
+    }
+
+    this.map.fitBounds(bounds, {
+      paddingTopLeft: [50, 110],
+      paddingBottomRight: [50, 60],
+      maxZoom: 16,
+    })
+  }
+
+  // Marker "mi ubicación": punto azul con halo de precisión (estilo GPS).
+  private userIcon(): L.DivIcon {
+    return L.divIcon({
+      className: '',
+      html: `
+        <div class="user-marker">
+          <div class="user-marker__accuracy"></div>
+          <div class="user-marker__dot"></div>
+        </div>`,
+      iconSize: [24, 24],
+      iconAnchor: [12, 12],
+    })
   }
 
   // Marker principal: imagen del dispositivo en círculo dorado

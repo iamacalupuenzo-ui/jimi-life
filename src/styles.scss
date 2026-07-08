@@ -76,8 +76,41 @@ button {
   }
 }
 
+// Marker "mi ubicación" (punto azul GPS)
+.user-marker {
+  position: relative;
+  width: 24px; height: 24px;
+
+  &__accuracy {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 56px; height: 56px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: rgba(59, 130, 246, 0.16);
+    animation: pulse-center 2s ease-out infinite;
+  }
+
+  &__dot {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 18px; height: 18px;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+    background: var(--blue-500);
+    border: 3px solid #fff;
+    box-shadow: 0 0 0 1px rgba(26, 24, 20, 0.08), 0 2px 6px rgba(59, 130, 246, 0.5);
+  }
+}
+
 @keyframes pulse {
   0%   { transform: scale(0.9); opacity: 0.7; }
   70%  { transform: scale(1.5); opacity: 0; }
+  100% { opacity: 0; }
+}
+
+@keyframes pulse-center {
+  0%   { transform: translate(-50%, -50%) scale(0.9); opacity: 0.7; }
+  70%  { transform: translate(-50%, -50%) scale(1.5); opacity: 0; }
   100% { opacity: 0; }
 }

@@ -1,23 +1,24 @@
 import {
-  AfterViewInit, ChangeDetectionStrategy, Component,
-  ElementRef, OnInit, ViewChild, computed, inject, signal,
+  AfterViewInit, ChangeDetectionStrategy, Component, ElementRef,
+  OnInit, ViewChild, computed, inject, signal,
 } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DeviceMapComponent } from '../../components/device-map/device-map.component'
-import { LocationPoint, DayTab } from '../../models/location.model'
+import { IconComponent } from '../../../../shared/components/icon/icon.component'
 import { MOCK_DEVICES } from '../../../home/data/mock-devices'
-import { MOCK_DAYS, MOCK_LOCATIONS } from '../../data/mock-locations'
+import { MOCK_LOCATIONS } from '../../data/mock-locations'
 import { JimiDevice } from '../../../home/models/device.model'
+import { LocationPoint } from '../../models/location.model'
 
 @Component({
-  selector: 'app-dispositivo-page',
+  selector: 'app-dispositivo-detail',
   standalone: true,
-  imports: [DeviceMapComponent],
-  templateUrl: './dispositivo-page.component.html',
-  styleUrl: './dispositivo-page.component.scss',
+  imports: [DeviceMapComponent, IconComponent],
+  templateUrl: './dispositivo-detail.component.html',
+  styleUrl: './dispositivo-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DispositivoPageComponent implements OnInit, AfterViewInit {
+export class DispositivoDetailComponent implements OnInit, AfterViewInit {
   private readonly router = inject(Router)
   private readonly route = inject(ActivatedRoute)
 
@@ -25,13 +26,26 @@ export class DispositivoPageComponent implements OnInit, AfterViewInit {
   @ViewChild('sheetBody') private bodyRef!: ElementRef<HTMLElement>
 
   readonly device = signal<JimiDevice | null>(null)
-  readonly days = signal<DayTab[]>(MOCK_DAYS)
-  readonly activeDay = signal<string>('2026-07-07')
   readonly sheetExpanded = signal(true)
 
+  readonly isConnected = computed(() => this.device()?.connection === 'connected')
+
+  readonly batteryLow = computed(() => {
+    const battery = this.device()?.battery
+    return battery !== null && battery !== undefined && battery <= 20
+  })
+
   readonly locations = computed<LocationPoint[]>(() =>
-    MOCK_LOCATIONS[this.activeDay()] ?? [],
+    MOCK_LOCATIONS['2026-07-07'] ?? [],
   )
+
+  readonly latestAddress = computed(() => this.locations()[0]?.address ?? '')
+
+  // "Mi ubicación" comparte punto con el dispositivo (está Contigo).
+  readonly userLocation = computed(() => {
+    const latest = this.locations()[0]
+    return latest ? { lat: latest.lat, lng: latest.lng } : null
+  })
 
   private collapseY = 0
   private currentY = 0
@@ -43,9 +57,6 @@ export class DispositivoPageComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.measureCollapseY()
-    const activeBtn = this.sheetRef.nativeElement
-      .querySelector('.day-btn--active') as HTMLElement | null
-    activeBtn?.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' })
   }
 
   private measureCollapseY(): void {
@@ -75,19 +86,6 @@ export class DispositivoPageComponent implements OnInit, AfterViewInit {
     else this.expandSheet()
   }
 
-  goBack(): void {
-    const id = this.route.snapshot.paramMap.get('id')
-    this.router.navigate(['/dispositivo', id])
-  }
-
-  selectDay(key: string, event?: Event): void {
-    this.activeDay.set(key)
-    ;(event?.currentTarget as HTMLElement | undefined)?.scrollIntoView({
-      behavior: 'smooth', inline: 'center', block: 'nearest',
-    })
-    if (!this.sheetExpanded()) this.expandSheet()
-  }
-
   onSheetGrab(event: PointerEvent): void {
     if (event.button !== 0) return
     event.preventDefault()
@@ -113,7 +111,6 @@ export class DispositivoPageComponent implements OnInit, AfterViewInit {
 
       if (didDrag) {
         const delta = e.clientY - startY
-        // Requiere arrastrar al menos la mitad del cuerpo para cambiar de estado
         if (delta > this.collapseY * 0.5) this.collapseSheet()
         else if (delta < -this.collapseY * 0.5) this.expandSheet()
         else this.sheetExpanded() ? this.expandSheet() : this.collapseSheet()
@@ -124,5 +121,14 @@ export class DispositivoPageComponent implements OnInit, AfterViewInit {
 
     handle.addEventListener('pointermove', onMove as EventListener)
     handle.addEventListener('pointerup', onUp as EventListener)
+  }
+
+  goBack(): void {
+    this.router.navigate(['/home'])
+  }
+
+  goToPlayback(): void {
+    const id = this.route.snapshot.paramMap.get('id')
+    this.router.navigate(['/dispositivo', id, 'playback'])
   }
 }

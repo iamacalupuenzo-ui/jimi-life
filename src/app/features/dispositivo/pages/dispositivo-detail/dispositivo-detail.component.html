@@ -1,0 +1,196 @@
+<div class="detail">
+
+  <!-- Header -->
+  <header class="detail__header">
+    <div class="detail__bar">
+      <button class="detail__back" type="button" (click)="goBack()" aria-label="Volver">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <h1 class="detail__device-name">{{ device()?.name ?? '—' }}</h1>
+
+      <button class="detail__settings" type="button" aria-label="Configuración">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="1.7"/>
+          <path d="M19.1 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.5-2.3 1a7.1 7.1 0 0 0-2-1.1L14.2 3h-4l-.4 2.5a7 7 0 0 0-2.1 1.2l-2.3-1-2 3.5 2 1.4a7 7 0 0 0 0 2.4l-2 1.5 2 3.5 2.3-1a7 7 0 0 0 2.1 1.2l.4 2.5h4l.4-2.5a7 7 0 0 0 2.1-1.2l2.3 1 2-3.5-2-1.4c.06-.4.1-.8.1-1.2Z" stroke="currentColor" stroke-width="1.5"/>
+        </svg>
+      </button>
+    </div>
+
+    <div class="detail__status">
+      <span class="detail__status-item">
+        <jl-icon name="battery" [size]="15" class="detail__status-ic"
+                 [class.detail__status-ic--low]="batteryLow()"
+                 [class.detail__status-ic--ok]="!batteryLow()" />
+        {{ device()?.battery }}%
+      </span>
+
+      <span class="detail__status-sep" aria-hidden="true"></span>
+
+      @if (device()?.withYou) {
+        <span class="detail__status-item">
+          <jl-icon name="location" [size]="14" class="detail__status-ic detail__status-ic--ok" />
+          Contigo
+        </span>
+      } @else {
+        <span class="detail__status-item">
+          <jl-icon name="clock" [size]="14" class="detail__status-ic detail__status-ic--ok" />
+          {{ device()?.lastSeenLabel }}
+        </span>
+      }
+
+      <span class="detail__status-sep" aria-hidden="true"></span>
+
+      @if (isConnected()) {
+        <span class="detail__status-item">
+          <jl-icon name="bluetooth" [size]="14" class="detail__status-ic detail__status-ic--info" />
+          Conectado
+        </span>
+      } @else {
+        <span class="detail__status-item">
+          <jl-icon name="bluetooth-off" [size]="14" class="detail__status-ic" />
+          Sin conexión
+        </span>
+      }
+    </div>
+  </header>
+
+  <!-- Mapa -->
+  <div class="detail__map">
+    @if (device()) {
+      <app-device-map
+        [locations]="locations()"
+        [deviceImageUrl]="device()!.imageUrl"
+        [showTrail]="false"
+        [userLocation]="userLocation()"
+      />
+    }
+
+    <div class="detail__latest-badge" aria-live="polite">
+      <jl-icon name="location" [size]="15" />
+      Última ubicación
+    </div>
+
+    <div class="detail__map-ctrls">
+      <button class="detail__map-btn" type="button" aria-label="Tipo de mapa">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 4L3 7v13l6-3 6 3 6-3V4l-6 3-6-3z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+          <path d="M9 4v13M15 7v13" stroke="currentColor" stroke-width="1.7"/>
+        </svg>
+      </button>
+      <button class="detail__map-btn" type="button" aria-label="Mi ubicación">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/>
+          <path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button class="detail__map-btn" type="button" aria-label="Actualizar">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 12a8 8 0 0 1 14-5.3M20 12a8 8 0 0 1-14 5.3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          <path d="M4 7V4h3M20 17v3h-3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <!-- Bottom sheet expandible/contraíble -->
+  <div class="dsheet" #sheetEl>
+    <div
+      class="dsheet__grab"
+      role="button" tabindex="0"
+      aria-label="Arrastrar para expandir o contraer el panel"
+      (pointerdown)="onSheetGrab($event)"
+      (keydown.enter)="toggleSheet()"
+    >
+      <span class="dsheet__grab-bar"></span>
+    </div>
+
+    <!-- Dirección (siempre visible) -->
+    <div class="dsheet__peek">
+      <div class="dsheet__addr-info">
+        <p class="dsheet__addr-text">{{ latestAddress() }}</p>
+        <span class="dsheet__addr-time">Ahora</span>
+      </div>
+      <button class="dsheet__nav-btn" type="button" aria-label="Navegar">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 2L4.5 20.3l.5.2 7-3 7 3 .5-.2L12 2z" fill="currentColor"/>
+        </svg>
+      </button>
+    </div>
+
+    <!-- Acciones (colapsable) -->
+    <div class="dsheet__body" #sheetBody>
+      <div class="dsheet__actions">
+        <button class="action-card" type="button">
+          <span class="action-card__icon action-card__icon--blue">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2a1.6 1.6 0 0 1 1.6 1.6v.5A6 6 0 0 1 18 9.9c0 2.9.85 4.6 1.6 5.6A1.2 1.2 0 0 1 18.6 17.4H5.4a1.2 1.2 0 0 1-.98-1.9c.75-1 1.58-2.7 1.58-5.6a6 6 0 0 1 4.4-5.8v-.5A1.6 1.6 0 0 1 12 2Z"/>
+              <path d="M9.5 18.8a2.5 2.5 0 0 0 5 0h-5Z"/>
+            </svg>
+          </span>
+          <span class="action-card__label">Reproducir sonido</span>
+        </button>
+        <button class="action-card" type="button" (click)="goToPlayback()">
+          <span class="action-card__icon action-card__icon--green">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M8.6 3.1 4 4.9a1 1 0 0 0-.63.93V20a1 1 0 0 0 1.37.93L8.6 19.4V3.1Z"/>
+              <path d="M10.2 3.3v16.1l3.6 1.35V4.65L10.2 3.3Z" opacity="0.5"/>
+              <path d="M17.7 2a3.6 3.6 0 0 0-3.6 3.6c0 2.4 3.6 5.2 3.6 5.2s3.6-2.8 3.6-5.2A3.6 3.6 0 0 0 17.7 2Zm0 4.9a1.3 1.3 0 1 1 0-2.6 1.3 1.3 0 0 1 0 2.6Z"/>
+            </svg>
+          </span>
+          <span class="action-card__label">Recorrido</span>
+        </button>
+      </div>
+
+      <button class="freq-card" type="button">
+        <span class="freq-card__icon">
+          <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+            <rect x="2.2" y="10" width="2.6" height="4" rx="1.3"/>
+            <rect x="6.6" y="7" width="2.6" height="10" rx="1.3"/>
+            <rect x="11" y="3.5" width="2.6" height="17" rx="1.3"/>
+            <rect x="15.4" y="7" width="2.6" height="10" rx="1.3"/>
+            <rect x="19.8" y="10" width="2.6" height="4" rx="1.3"/>
+          </svg>
+        </span>
+        <span class="freq-card__content">
+          <span class="freq-card__label">Frecuencia</span>
+          <span class="freq-card__value">60 min</span>
+        </span>
+      </button>
+
+      <div class="dsheet__features">
+        <button class="feat-card" type="button">
+          <span class="feat-card__icon feat-card__icon--green">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M12 2a8 8 0 0 0-8 8c0 5.4 7.05 11.4 7.35 11.65a1 1 0 0 0 1.3 0C12.95 21.4 20 15.4 20 10a8 8 0 0 0-8-8Zm2.6 8.9a.9.9 0 1 1-1.27 1.27L12 10.84l-1.33 1.33a.9.9 0 1 1-1.27-1.27L10.73 9.6 9.4 8.27A.9.9 0 1 1 10.67 7L12 8.33 13.33 7a.9.9 0 1 1 1.27 1.27L13.27 9.6l1.33 1.3Z"/>
+            </svg>
+          </span>
+          <span class="feat-card__label">Geocercas</span>
+        </button>
+        <button class="feat-card" type="button">
+          <span class="feat-card__icon-wrap">
+            <span class="feat-card__icon feat-card__icon--gold">
+              <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+                <rect x="11" y="2.4" width="2" height="3.2" rx="1"/>
+                <path d="M5 20.4a1.1 1.1 0 0 1-1.1-1.1v-.8a1.1 1.1 0 0 1 1.1-1.1h14a1.1 1.1 0 0 1 1.1 1.1v.8a1.1 1.1 0 0 1-1.1 1.1H5Z"/>
+                <path d="M5.8 15.6a6.2 6.2 0 0 1 12.4 0v.4H5.8v-.4Z"/>
+              </svg>
+            </span>
+            <span class="feat-card__badge"></span>
+          </span>
+          <span class="feat-card__label">Alertas</span>
+        </button>
+        <button class="feat-card" type="button">
+          <span class="feat-card__icon feat-card__icon--blue">
+            <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M4 5a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2H4Zm4.6 3.1a1.9 1.9 0 1 1 0 3.8 1.9 1.9 0 0 1 0-3.8Zm3 7.5a.5.5 0 0 1-.5.5H6.1a.5.5 0 0 1-.5-.5c0-1.65 1.97-2.5 3-2.5s3 .85 3 2.5ZM18 15h-3.2a.85.85 0 1 1 0-1.7H18a.85.85 0 1 1 0 1.7Zm0-3.6h-3.2a.85.85 0 1 1 0-1.7H18a.85.85 0 1 1 0 1.7Z"/>
+            </svg>
+          </span>
+          <span class="feat-card__label">Contacto</span>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
