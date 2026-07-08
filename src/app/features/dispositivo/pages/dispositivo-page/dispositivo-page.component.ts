@@ -1,4 +1,7 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, computed, inject, signal } from '@angular/core'
+import {
+  AfterViewInit, ChangeDetectionStrategy, Component,
+  ElementRef, OnInit, ViewChild, computed, inject, signal,
+} from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DeviceMapComponent } from '../../components/device-map/device-map.component'
 import { LocationPoint, DayTab } from '../../models/location.model'
@@ -15,9 +18,11 @@ import { JimiDevice } from '../../../home/models/device.model'
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DispositivoPageComponent implements OnInit, AfterViewInit {
-  private router = new Router()
-  private route: ActivatedRoute
-  private elementRef = inject(ElementRef<HTMLElement>)
+  private readonly router = inject(Router)
+  private readonly route = inject(ActivatedRoute)
+
+  @ViewChild('sheetEl') private sheetRef!: ElementRef<HTMLElement>
+  @ViewChild('sheetBody') private bodyRef!: ElementRef<HTMLElement>
 
   readonly device = signal<JimiDevice | null>(null)
   readonly days = signal<DayTab[]>(MOCK_DAYS)
@@ -28,56 +33,94 @@ export class DispositivoPageComponent implements OnInit, AfterViewInit {
     MOCK_LOCATIONS[this.activeDay()] ?? [],
   )
 
-  constructor(route: ActivatedRoute, router: Router) {
-    this.route = route
-    this.router = router
-  }
+  private collapseY = 0
+  private currentY = 0
 
   ngOnInit(): void {
     const id = this.route.snapshot.paramMap.get('id')
-    const found = MOCK_DEVICES.find((d) => d.id === id) ?? MOCK_DEVICES[0]
-    this.device.set(found)
+    this.device.set(MOCK_DEVICES.find((d) => d.id === id) ?? MOCK_DEVICES[0])
   }
 
   ngAfterViewInit(): void {
-    const activeBtn = this.elementRef.nativeElement.querySelector('.day-btn--active') as HTMLElement | null
+    this.measureCollapseY()
+    const activeBtn = this.sheetRef.nativeElement
+      .querySelector('.day-btn--active') as HTMLElement | null
     activeBtn?.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' })
   }
 
-  selectDay(key: string, event?: Event): void {
-    this.activeDay.set(key)
-    const target = event?.currentTarget as HTMLElement | undefined
-    target?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
+  private measureCollapseY(): void {
+    this.collapseY = this.bodyRef.nativeElement.offsetHeight
+  }
+
+  private translate(y: number, animated = false): void {
+    const el = this.sheetRef.nativeElement
+    el.style.transition = animated ? 'transform 0.35s cubic-bezier(0.4,0,0.2,1)' : 'none'
+    el.style.transform = y === 0 ? '' : `translateY(${y}px)`
+    this.currentY = y
+  }
+
+  expandSheet(): void {
+    this.sheetExpanded.set(true)
+    this.translate(0, true)
+  }
+
+  collapseSheet(): void {
+    this.measureCollapseY()
+    this.sheetExpanded.set(false)
+    this.translate(this.collapseY, true)
+  }
+
+  toggleSheet(): void {
+    if (this.sheetExpanded()) this.collapseSheet()
+    else this.expandSheet()
   }
 
   goBack(): void {
     this.router.navigate(['/home'])
   }
 
-  toggleSheet(): void {
-    this.sheetExpanded.update((v) => !v)
+  selectDay(key: string, event?: Event): void {
+    this.activeDay.set(key)
+    ;(event?.currentTarget as HTMLElement | undefined)?.scrollIntoView({
+      behavior: 'smooth', inline: 'center', block: 'nearest',
+    })
+    if (!this.sheetExpanded()) this.expandSheet()
   }
 
   onSheetGrab(event: PointerEvent): void {
-    const startY = event.clientY
-    const target = event.currentTarget as HTMLElement
-    target.setPointerCapture(event.pointerId)
+    if (event.button !== 0) return
+    event.preventDefault()
 
-    const move = (e: PointerEvent) => {
+    const startY = event.clientY
+    const startTranslate = this.currentY
+    let didDrag = false
+
+    const handle = event.currentTarget as HTMLElement
+    handle.setPointerCapture(event.pointerId)
+
+    const onMove = (e: PointerEvent) => {
       const delta = e.clientY - startY
-      if (delta > 60) this.sheetExpanded.set(false)
-      else if (delta < -60) this.sheetExpanded.set(true)
+      if (Math.abs(delta) > 5) didDrag = true
+      if (!didDrag) return
+      this.translate(Math.max(0, Math.min(this.collapseY, startTranslate + delta)))
     }
-    const up = (e: PointerEvent) => {
-      target.removeEventListener('pointermove', move)
-      target.removeEventListener('pointerup', up)
-      try {
-        target.releasePointerCapture(e.pointerId)
-      } catch {
-        /* noop */
+
+    const onUp = (e: PointerEvent) => {
+      handle.removeEventListener('pointermove', onMove as EventListener)
+      handle.removeEventListener('pointerup', onUp as EventListener)
+      try { handle.releasePointerCapture(e.pointerId) } catch { /* noop */ }
+
+      if (didDrag) {
+        const delta = e.clientY - startY
+        if (delta > this.collapseY / 3) this.collapseSheet()
+        else if (delta < -this.collapseY / 3) this.expandSheet()
+        else this.sheetExpanded() ? this.expandSheet() : this.collapseSheet()
+      } else {
+        this.toggleSheet()
       }
     }
-    target.addEventListener('pointermove', move)
-    target.addEventListener('pointerup', up)
+
+    handle.addEventListener('pointermove', onMove as EventListener)
+    handle.addEventListener('pointerup', onUp as EventListener)
   }
 }

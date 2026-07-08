@@ -27,13 +27,12 @@
   </button>
 
   <!-- Bottom sheet -->
-  <div class="sheet" [class.sheet--collapsed]="!sheetExpanded()">
+  <div class="sheet" #sheetEl>
     <div
       class="sheet__grab"
       role="button" tabindex="0"
       aria-label="Arrastrar para contraer o expandir el panel"
       (pointerdown)="onSheetGrab($event)"
-      (click)="toggleSheet()"
       (keydown.enter)="toggleSheet()"
     >
       <span class="sheet__grab-bar"></span>
@@ -67,8 +66,8 @@
       </button>
     </div>
 
-    <!-- Cuerpo scrolleable: lista de ubicaciones / empty state -->
-    <div class="sheet__body">
+    <!-- Cuerpo scrolleable -->
+    <div class="sheet__body" #sheetBody>
       @if (locations().length > 0) {
         <ul class="loc-list" role="list">
           @for (loc of locations(); track loc.timestamp) {
