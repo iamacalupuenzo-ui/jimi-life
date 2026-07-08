@@ -77,7 +77,10 @@
       fill: var(--gold-500);
     }
 
+    // El ícono de usuario pinta sus formas con currentColor, por eso hay que
+    // cambiar el color (no solo el fill del svg) para que se marque activo.
     .nav__icon--user {
+      color: var(--gold-500);
       fill: var(--gold-500);
     }
 

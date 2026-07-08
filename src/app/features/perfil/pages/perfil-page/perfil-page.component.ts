@@ -23,8 +23,8 @@ export class PerfilPageComponent {
   readonly devices = { total: 2, active: 2 }
 
   readonly menuItems: MenuItem[] = [
-    { id: 'settings', label: 'Setting',       href: '#' },
-    { id: 'help',     label: 'Help & Feedback', href: '#' },
-    { id: 'about',    label: 'About',           href: '#' },
+    { id: 'settings', label: 'Ajustes',              href: '#' },
+    { id: 'help',     label: 'Ayuda y sugerencias',  href: '#' },
+    { id: 'about',    label: 'Acerca de',            href: '#' },
   ]
 }

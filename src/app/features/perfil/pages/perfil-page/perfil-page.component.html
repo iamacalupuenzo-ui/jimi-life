@@ -27,7 +27,7 @@
   <div class="stats">
     <div class="stat-card">
       <div class="stat-card__top">
-        <span class="stat-card__title">Orders</span>
+        <span class="stat-card__title">Pedidos</span>
         <span class="stat-card__icon stat-card__icon--orange">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M6 3h12a1 1 0 0 1 1 1v16l-7-3-7 3V4a1 1 0 0 1 1-1Z" fill="currentColor"/>
@@ -35,12 +35,12 @@
         </span>
       </div>
       <p class="stat-card__value">{{ orders.total }}</p>
-      <p class="stat-card__sub"><span class="stat-card__sub-count">{{ orders.inUse }}</span>/{{ orders.total }} In use</p>
+      <p class="stat-card__sub"><span class="stat-card__sub-count">{{ orders.inUse }}</span>/{{ orders.total }} En uso</p>
     </div>
 
     <div class="stat-card">
       <div class="stat-card__top">
-        <span class="stat-card__title">Devices</span>
+        <span class="stat-card__title">Dispositivos</span>
         <span class="stat-card__icon stat-card__icon--green">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <rect x="4" y="14" width="16" height="4" rx="2" fill="currentColor"/>
@@ -50,7 +50,7 @@
         </span>
       </div>
       <p class="stat-card__value">{{ devices.active }}</p>
-      <p class="stat-card__sub"><span class="stat-card__sub-count">{{ devices.active }}</span>/{{ devices.total }} Active</p>
+      <p class="stat-card__sub"><span class="stat-card__sub-count">{{ devices.active }}</span>/{{ devices.total }} Activos</p>
     </div>
   </div>
 
