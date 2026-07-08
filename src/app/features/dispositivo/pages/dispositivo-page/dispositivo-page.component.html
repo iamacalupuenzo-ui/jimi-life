@@ -28,11 +28,16 @@
 
   <!-- Bottom sheet -->
   <div class="sheet" [class.sheet--expanded]="sheetExpanded()">
-    <button class="sheet__handle-btn" type="button" (click)="toggleSheet()" aria-label="Expandir panel">
+    <button class="sheet__handle-btn" type="button" (click)="toggleSheet()" [attr.aria-label]="sheetExpanded() ? 'Contraer panel' : 'Expandir panel'">
+      <span class="sheet__chevron" aria-hidden="true">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M6 9l6 6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </span>
       <span class="sheet__handle"></span>
     </button>
 
-    <!-- Day picker: mes fijo + días scrolleables -->
+    <!-- Day picker fijo (no scrollea con la lista) -->
     <div class="day-picker">
       <div class="day-strip">
         @for (day of days(); track day.key) {
@@ -60,33 +65,8 @@
       </button>
     </div>
 
-    <!-- Compact state: solo el evento más reciente -->
-    @if (!sheetExpanded()) {
-      @if (locations().length > 0) {
-        <ul class="loc-list loc-list--compact" role="list">
-          <li class="loc-item loc-item--latest">
-            <span class="loc-item__dot"></span>
-            <div class="loc-item__content">
-              <p class="loc-item__address">{{ locations()[0].address }}</p>
-              <div class="loc-item__meta">
-                @if (locations()[0].isBluetoothSync) {
-                  <svg class="loc-item__bt" viewBox="0 0 24 24" fill="none" aria-label="Sincronizado por Bluetooth">
-                    <path d="M6.5 8 17 16.5l-5 4v-17l5 4L6.5 16" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-                  </svg>
-                }
-                <span class="loc-item__time">{{ locations()[0].timestamp }}</span>
-              </div>
-            </div>
-            <button class="loc-item__nav" type="button" aria-label="Navegar a esta ubicación">
-              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                <path d="M5 12h14M13 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-              </svg>
-            </button>
-          </li>
-        </ul>
-      }
-    } @else {
-      <!-- Location history list / empty state -->
+    <!-- Cuerpo scrolleable: lista de ubicaciones / empty state -->
+    <div class="sheet__body">
       @if (locations().length > 0) {
         <ul class="loc-list" role="list">
           @for (loc of locations(); track loc.timestamp) {
@@ -116,23 +96,18 @@
       } @else {
         <div class="empty-state" role="status" aria-live="polite">
           <svg class="empty-state__illustration" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <!-- mapa de fondo -->
             <rect x="20" y="30" width="160" height="110" rx="16" fill="#F5F4F2"/>
             <rect x="20" y="30" width="160" height="110" rx="16" stroke="#E8E6E3" stroke-width="1.5"/>
-            <!-- líneas de calle -->
             <path d="M20 75h160M80 30v110M130 30v110" stroke="#E8E6E3" stroke-width="2"/>
             <path d="M20 100h160" stroke="#E8E6E3" stroke-width="1.5" stroke-dasharray="6 4"/>
-            <!-- manzanas -->
             <rect x="28" y="38" width="44" height="29" rx="6" fill="#EAE8E4"/>
             <rect x="88" y="38" width="34" height="29" rx="6" fill="#EAE8E4"/>
             <rect x="28" y="82" width="44" height="20" rx="6" fill="#EAE8E4"/>
             <rect x="88" y="82" width="34" height="20" rx="6" fill="#EAE8E4"/>
-            <!-- pin con signo de interrogación -->
             <ellipse cx="152" cy="65" rx="18" ry="6" fill="rgba(255,184,0,0.15)"/>
             <path d="M152 28 C138 28 128 38 128 50 C128 66 152 84 152 84 C152 84 176 66 176 50 C176 38 166 28 152 28Z" fill="#FFB800"/>
             <circle cx="152" cy="50" r="12" fill="white" opacity="0.9"/>
             <text x="152" y="55" text-anchor="middle" font-size="14" font-weight="700" fill="#FFB800">?</text>
-            <!-- estrellitas -->
             <circle cx="40" cy="20" r="3" fill="#FFD54F" opacity="0.7"/>
             <circle cx="170" cy="15" r="2" fill="#FFD54F" opacity="0.5"/>
             <circle cx="60" cy="148" r="2.5" fill="#FFD54F" opacity="0.6"/>
@@ -141,6 +116,6 @@
           <p class="empty-state__subtitle">No hay registros de ubicación para este día</p>
         </div>
       }
-    }
+    </div>
   </div>
 </div>

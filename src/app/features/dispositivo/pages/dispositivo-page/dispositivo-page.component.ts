@@ -22,7 +22,7 @@ export class DispositivoPageComponent implements OnInit, AfterViewInit {
   readonly device = signal<JimiDevice | null>(null)
   readonly days = signal<DayTab[]>(MOCK_DAYS)
   readonly activeDay = signal<string>('2026-07-07')
-  readonly sheetExpanded = signal(false)
+  readonly sheetExpanded = signal(true)
 
   readonly locations = computed<LocationPoint[]>(() =>
     MOCK_LOCATIONS[this.activeDay()] ?? [],
