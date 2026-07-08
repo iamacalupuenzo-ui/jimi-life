@@ -15,5 +15,12 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/dispositivo/dispositivo.routes').then((m) => m.DISPOSITIVO_ROUTES),
   },
+  {
+    path: 'agregar-dispositivo',
+    loadChildren: () =>
+      import('./features/agregar-dispositivo/agregar-dispositivo.routes').then(
+        (m) => m.AGREGAR_DISPOSITIVO_ROUTES,
+      ),
+  },
   { path: '**', redirectTo: 'home' },
 ]

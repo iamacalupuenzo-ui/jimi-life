@@ -1,0 +1,53 @@
+<div class="add">
+
+  <header class="add__topbar">
+    <button class="add__back" type="button" (click)="goBack()" aria-label="Volver">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+  </header>
+
+  <!-- Descubrimiento -->
+  <section class="add__discover">
+    <h1 class="add__title">Descubrir dispositivos cercanos..</h1>
+    <p class="add__hint">
+      Mantén el teléfono cerca del dispositivo<br>
+      Mantén el dispositivo encendido y cargado.
+    </p>
+
+    <div class="add__illustration" aria-hidden="true">
+      <span class="add__glow"></span>
+      <span class="add__glow add__glow--delay"></span>
+      <svg class="add__phone" viewBox="0 0 96 180" fill="none">
+        <rect x="8" y="2" width="76" height="176" rx="20" stroke="currentColor" stroke-width="2.4"/>
+        <rect x="38" y="12" width="16" height="4" rx="2" fill="currentColor" opacity="0.4"/>
+        <rect x="84" y="56" width="2.6" height="28" rx="1.3" fill="currentColor"/>
+      </svg>
+    </div>
+  </section>
+
+  <!-- Acciones -->
+  <section class="add__actions">
+    <button class="add-action" type="button" (click)="goToManual()">
+      <span class="add-action__icon">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <rect x="3" y="8" width="18" height="8" rx="3" stroke="currentColor" stroke-width="1.7"/>
+          <path d="M6.5 12H12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="add-action__label">Agregar manualmente</span>
+    </button>
+
+    <button class="add-action" type="button" (click)="goToScan()">
+      <span class="add-action__icon">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"
+            stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+          <path d="M4 12h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </span>
+      <span class="add-action__label">Escanear para agregar</span>
+    </button>
+  </section>
+</div>

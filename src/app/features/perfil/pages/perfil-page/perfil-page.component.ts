@@ -1,4 +1,5 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core'
+import { UserAvatarComponent } from '../../../../shared/components/user-avatar/user-avatar.component'
 
 interface MenuItem {
   id: 'settings' | 'help' | 'about'
@@ -9,6 +10,7 @@ interface MenuItem {
 @Component({
   selector: 'app-perfil-page',
   standalone: true,
+  imports: [UserAvatarComponent],
   templateUrl: './perfil-page.component.html',
   styleUrl: './perfil-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

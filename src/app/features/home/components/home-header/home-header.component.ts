@@ -1,21 +1,14 @@
-import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core'
+import { ChangeDetectionStrategy, Component, input } from '@angular/core'
+import { UserAvatarComponent } from '../../../../shared/components/user-avatar/user-avatar.component'
 
 @Component({
   selector: 'app-home-header',
   standalone: true,
+  imports: [UserAvatarComponent],
   templateUrl: './home-header.component.html',
   styleUrl: './home-header.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class HomeHeaderComponent {
   readonly name = input.required<string>()
-
-  readonly initials = computed(() =>
-    this.name()
-      .split(' ')
-      .map((part) => part.charAt(0))
-      .slice(0, 2)
-      .join('')
-      .toUpperCase(),
-  )
 }

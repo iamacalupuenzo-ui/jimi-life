@@ -8,4 +8,9 @@
 .map-container {
   width: 100%;
   height: 100%;
+  // Crea un contexto de apilamiento propio: así las capas internas de Leaflet
+  // (tiles/marcadores, z-index 200–600) no tapan los overlays hermanos
+  // (badge "Última ubicación", controles del mapa).
+  position: relative;
+  z-index: 0;
 }

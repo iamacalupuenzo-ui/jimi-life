@@ -11,14 +11,14 @@
       </div>
 
       <div class="toolbar__actions">
-        <button class="toolbar__btn" type="button" aria-label="Escanear código QR">
+        <button class="toolbar__btn" type="button" aria-label="Escanear código QR" (click)="onScan()">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M4 8V5.5A1.5 1.5 0 0 1 5.5 4H8M16 4h2.5A1.5 1.5 0 0 1 20 5.5V8M20 16v2.5a1.5 1.5 0 0 1-1.5 1.5H16M8 20H5.5A1.5 1.5 0 0 1 4 18.5V16"
               stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
             <path d="M4 12h16" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
           </svg>
         </button>
-        <button class="toolbar__btn" type="button" aria-label="Agregar dispositivo">
+        <button class="toolbar__btn" type="button" aria-label="Agregar dispositivo" (click)="onAddDevice()">
           <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
             <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
           </svg>

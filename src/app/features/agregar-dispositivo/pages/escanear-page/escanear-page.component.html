@@ -1,0 +1,57 @@
+<div class="scan">
+  <video #video class="scan__video" autoplay playsinline muted></video>
+
+  <div class="scan__overlay">
+    <header class="scan__topbar">
+      <button class="scan__close" type="button" (click)="close()" aria-label="Cerrar">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M6 6l12 12M18 6L6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <h1 class="scan__title">Escanear</h1>
+      <span class="scan__spacer" aria-hidden="true"></span>
+    </header>
+
+    <div class="scan__frame-wrap">
+      <div class="scan__frame" aria-hidden="true">
+        <span class="scan__corner scan__corner--tl"></span>
+        <span class="scan__corner scan__corner--tr"></span>
+        <span class="scan__corner scan__corner--bl"></span>
+        <span class="scan__corner scan__corner--br"></span>
+      </div>
+    </div>
+
+    <div class="scan__bottom">
+      @if (error()) {
+        <p class="scan__error">{{ error() }}</p>
+      } @else {
+        <p class="scan__hint">
+          Por favor, escanea la información del código QR en el cuerpo del
+          dispositivo para agregarlo
+        </p>
+      }
+
+      <button class="scan__manual" type="button" (click)="manualEntry()">
+        Sin código QR, ingreso manual
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+        </svg>
+      </button>
+
+      <button
+        class="scan__torch"
+        type="button"
+        [class.scan__torch--on]="torchOn()"
+        [disabled]="!torchAvailable()"
+        (click)="toggleTorch()"
+        [attr.aria-pressed]="torchOn()"
+        aria-label="Encender o apagar linterna"
+      >
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M8 3h8l-1 6-3 12-3-12-1-6z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+          <path d="M7.5 6.5h9" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+</div>

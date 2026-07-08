@@ -1,0 +1,116 @@
+:host { display: contents; }
+
+.manual {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  padding: 0 var(--space-5) var(--space-5);
+  background: var(--color-bg-default);
+  overflow-y: auto;
+
+  &__topbar {
+    flex-shrink: 0;
+    padding: calc(env(safe-area-inset-top, 0px) + var(--space-3)) 0 var(--space-2);
+    margin-left: calc(-1 * var(--space-2));
+  }
+
+  &__close {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    svg { width: 24px; height: 24px; }
+    &:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+  }
+
+  &__hint {
+    margin: var(--space-2) 0 0;
+    font-size: 15px;
+    font-weight: 500;
+    line-height: 1.5;
+    color: var(--color-text-secondary);
+  }
+
+  &__art-wrap {
+    display: grid;
+    place-items: center;
+    padding: var(--space-6) 0;
+  }
+
+  &__art {
+    width: 100%;
+    max-width: 260px;
+    height: auto;
+  }
+
+  // ── Campo IMEI/SN ───────────────────────────────────
+  &__field {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: 0 var(--space-3) 0 var(--space-4);
+    background: var(--color-bg-surface);
+    border: 1.5px solid var(--color-border-default);
+    border-radius: var(--radius-md);
+    transition: border-color 0.2s ease;
+
+    &:focus-within { border-color: var(--color-border-brand); }
+  }
+
+  &__input {
+    flex: 1;
+    min-width: 0;
+    height: 54px;
+    border: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-primary);
+    &::placeholder { color: var(--color-text-tertiary); }
+    &:focus { outline: none; }
+  }
+
+  &__scan {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-sm);
+    color: var(--color-text-secondary);
+    svg { width: 24px; height: 24px; }
+    &:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+  }
+
+  // ── Continuar ───────────────────────────────────────
+  &__continue {
+    margin-top: var(--space-6);
+    height: 56px;
+    border: none;
+    border-radius: var(--radius-full);
+    background: var(--color-brand-default);
+    color: var(--color-text-on-brand);
+    font-size: 16px;
+    font-weight: 700;
+    transition: opacity 0.2s ease, background 0.2s ease;
+    -webkit-tap-highlight-color: transparent;
+
+    &:disabled {
+      background: var(--gold-200);
+      color: var(--gold-700);
+      opacity: 0.7;
+      cursor: not-allowed;
+    }
+
+    &:not(:disabled):hover { background: var(--color-brand-hover); }
+    &:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+  }
+}

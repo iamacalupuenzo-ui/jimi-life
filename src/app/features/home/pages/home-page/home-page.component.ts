@@ -27,4 +27,12 @@ export class HomePageComponent {
   onDeviceOpened(device: JimiDevice): void {
     this.router.navigate(['/dispositivo', device.id])
   }
+
+  onAddDevice(): void {
+    this.router.navigate(['/agregar-dispositivo'])
+  }
+
+  onScan(): void {
+    this.router.navigate(['/agregar-dispositivo', 'escanear'])
+  }
 }
