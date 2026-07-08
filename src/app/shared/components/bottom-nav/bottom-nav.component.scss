@@ -6,11 +6,15 @@
   width: 100%;
   max-width: 430px;
   z-index: 50;
+  transition: transform 0.25s ease, visibility 0.25s ease;
+}
+
+:host(.host--hidden) {
+  transform: translateX(-50%) translateY(100%);
+  visibility: hidden;
 }
 
 .nav {
-  &--hidden { display: none; }
-
   display: flex;
   justify-content: space-around;
   align-items: center;

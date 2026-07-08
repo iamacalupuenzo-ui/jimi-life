@@ -16,6 +16,10 @@ interface NavItem {
   templateUrl: './bottom-nav.component.html',
   styleUrl: './bottom-nav.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  host: {
+    '[class.host--hidden]': 'hidden()',
+    '[attr.aria-hidden]': 'hidden()',
+  },
 })
 export class BottomNavComponent {
   private router = inject(Router)

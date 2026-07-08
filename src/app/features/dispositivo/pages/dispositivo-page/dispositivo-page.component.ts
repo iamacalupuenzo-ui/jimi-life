@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, OnInit, computed, signal } from '@angular/core'
+import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, OnInit, computed, inject, signal } from '@angular/core'
 import { ActivatedRoute, Router } from '@angular/router'
 import { DeviceMapComponent } from '../../components/device-map/device-map.component'
 import { LocationPoint, DayTab } from '../../models/location.model'
@@ -14,9 +14,10 @@ import { JimiDevice } from '../../../home/models/device.model'
   styleUrl: './dispositivo-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DispositivoPageComponent implements OnInit {
+export class DispositivoPageComponent implements OnInit, AfterViewInit {
   private router = new Router()
   private route: ActivatedRoute
+  private elementRef = inject(ElementRef<HTMLElement>)
 
   readonly device = signal<JimiDevice | null>(null)
   readonly days = signal<DayTab[]>(MOCK_DAYS)
@@ -38,8 +39,15 @@ export class DispositivoPageComponent implements OnInit {
     this.device.set(found)
   }
 
-  selectDay(key: string): void {
+  ngAfterViewInit(): void {
+    const activeBtn = this.elementRef.nativeElement.querySelector('.day-btn--active') as HTMLElement | null
+    activeBtn?.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' })
+  }
+
+  selectDay(key: string, event?: Event): void {
     this.activeDay.set(key)
+    const target = event?.currentTarget as HTMLElement | undefined
+    target?.scrollIntoView({ behavior: 'smooth', inline: 'center', block: 'nearest' })
   }
 
   toggleSheet(): void {
