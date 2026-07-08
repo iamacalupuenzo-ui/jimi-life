@@ -4,18 +4,18 @@
 // ============================================
 
 :root {
-  // Gold — Brand Jimi Life
-  --gold-50:  #FFFBEB;
-  --gold-100: #FFF3C4;
-  --gold-200: #FFE58A;
-  --gold-300: #FFD54F;
-  --gold-400: #FFC821;
-  --gold-500: #FFB800;
-  --gold-600: #E29A00;
-  --gold-700: #B87700;
-  --gold-800: #925C0A;
-  --gold-900: #6B420D;
-  --gold-950: #3E2506;
+  // Brand — Primary (#1257CC)
+  --brand-50:  #EEF4FE;
+  --brand-100: #D8E4FC;
+  --brand-200: #B7CDF8;
+  --brand-300: #9DBBF3;
+  --brand-400: #5E8AE8;
+  --brand-500: #1257CC;
+  --brand-600: #0F49A8;
+  --brand-700: #0C3A84;
+  --brand-800: #0A2E68;
+  --brand-900: #071F47;
+  --brand-950: #04142D;
 
   // Neutral — Warm Gray
   --neutral-0:   #FFFFFF;
@@ -58,11 +58,12 @@
   --blue-600: #2563EB;
   --blue-700: #1D4ED8;
 
-  // Pastels — auras de gradientes creativos
-  --aura-lime:   #E8F5A3;
-  --aura-mint:   #C8F0D8;
-  --aura-sky:    #C9E2FF;
-  --aura-peach:  #FFD9C2;
+  // Pastels — auras suaves de las tarjetas, alineadas a la paleta
+  // (azul Primary / naranja Tertiary), sin verdes.
+  --aura-blue:   #CFE0FB;
+  --aura-indigo: #D2DCF3;
+  --aura-orange: #F9CBA9;
+  --aura-peach:  #FBDDCB;
   --aura-lilac:  #E4D9FF;
   --aura-cream:  #FFF6DE;
 }

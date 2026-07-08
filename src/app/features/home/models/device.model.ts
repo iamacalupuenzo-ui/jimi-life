@@ -1,6 +1,6 @@
 export type ConnectionState = 'connected' | 'disconnected'
 
-export type DeviceAura = 'lime' | 'sky' | 'peach' | 'mint'
+export type DeviceAura = 'blue' | 'indigo' | 'orange' | 'peach'
 
 export interface JimiDevice {
   id: string

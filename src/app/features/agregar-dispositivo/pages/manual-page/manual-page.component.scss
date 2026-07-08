@@ -104,8 +104,8 @@
     -webkit-tap-highlight-color: transparent;
 
     &:disabled {
-      background: var(--gold-200);
-      color: var(--gold-700);
+      background: var(--brand-200);
+      color: var(--brand-700);
       opacity: 0.7;
       cursor: not-allowed;
     }

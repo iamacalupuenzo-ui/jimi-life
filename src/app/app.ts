@@ -8,7 +8,7 @@ import { BottomNavComponent } from './shared/components/bottom-nav/bottom-nav.co
 
 // Color de la barra de estado según la vista. Debe coincidir con lo que se
 // pinta en el borde superior de cada pantalla (meta name="theme-color").
-const THEME_HOME = '#FFD54F'   // header dorado del Home (= --gold-300)
+const THEME_HOME = '#9DBBF3'   // header del Home (= --brand-300)
 const THEME_CAMERA = '#000000' // vista de cámara (escáner)
 const THEME_LIGHT = '#FFFFFF'  // headers/fondos claros (detalle, perfil, etc.)
 

@@ -11,26 +11,17 @@
     pointer-events: none;
   }
 
-  &__ring {
+  // Isotipo de marca como watermark: se tiñe de blanco vía mask y se controla
+  // tamaño/opacidad por instancia (aspect-ratio del viewBox 132x103).
+  &__iso {
     position: absolute;
-    border-radius: 50%;
-    border: 24px solid rgba(255, 255, 255, 0.28);
-
-    &--lg {
-      width: 220px;
-      height: 220px;
-      top: -110px;
-      right: -60px;
-    }
-
-    &--sm {
-      width: 120px;
-      height: 120px;
-      top: 40px;
-      right: 90px;
-      border-width: 16px;
-      border-color: rgba(255, 255, 255, 0.18);
-    }
+    width: 240px;
+    aspect-ratio: 132 / 103;
+    top: -40px;
+    right: -73px;
+    background: rgba(255, 255, 255, 0.3);
+    -webkit-mask: url('/brand/iso.svg') no-repeat center / contain;
+    mask: url('/brand/iso.svg') no-repeat center / contain;
   }
 
   &__row {

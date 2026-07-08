@@ -10,13 +10,13 @@
     left: 0;
     right: 0;
     height: 300px;
-    // El tope se mantiene sólido en gold-300 (= theme-color de la barra de
+    // El tope se mantiene sólido en brand-300 (= theme-color de la barra de
     // estado) para fundirse con ella sin dejar línea de corte; luego aclara.
     background: linear-gradient(
       180deg,
-      var(--gold-300) 0,
-      var(--gold-300) 84px,
-      var(--gold-100) 60%,
+      var(--brand-300) 0,
+      var(--brand-300) 84px,
+      var(--brand-100) 60%,
       transparent 100%
     );
     pointer-events: none;

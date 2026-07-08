@@ -25,10 +25,10 @@
     opacity: 0.45;
   }
 
-  &--lime .card__aura { background: var(--gradient-aura-lime); }
-  &--sky .card__aura { background: var(--gradient-aura-sky); }
+  &--blue .card__aura { background: var(--gradient-aura-blue); }
+  &--indigo .card__aura { background: var(--gradient-aura-indigo); }
+  &--orange .card__aura { background: var(--gradient-aura-orange); }
   &--peach .card__aura { background: var(--gradient-aura-peach); }
-  &--mint .card__aura { background: var(--gradient-aura-mint); }
 
   &__main {
     position: relative;

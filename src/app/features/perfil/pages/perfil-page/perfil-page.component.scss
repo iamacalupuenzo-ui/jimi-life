@@ -1,5 +1,13 @@
+:host {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-height: 0;
+}
+
 .perfil {
   position: relative;
+  flex: 1;
   display: flex;
   flex-direction: column;
   gap: var(--space-4);
@@ -60,6 +68,22 @@
   }
 
   &__file { display: none; }
+
+  // Isotipo de marca como watermark al pie del perfil (mismo formato que Home,
+  // teñido en azul de marca vía mask).
+  &__iso {
+    position: absolute;
+    left: 50%;
+    bottom: -4px;
+    transform: translateX(-50%);
+    width: 190px;
+    aspect-ratio: 132 / 131;
+    background: var(--brand-400);
+    opacity: 0.28;
+    pointer-events: none;
+    -webkit-mask: url('/brand/iso-full.svg') no-repeat center / contain;
+    mask: url('/brand/iso-full.svg') no-repeat center / contain;
+  }
 
   &__edit-btn {
     position: absolute;

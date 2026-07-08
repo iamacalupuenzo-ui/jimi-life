@@ -5,11 +5,11 @@
 
 :root {
   // Brand
-  --color-brand-default:   var(--gold-500);
-  --color-brand-hover:     var(--gold-600);
-  --color-brand-active:    var(--gold-700);
-  --color-brand-subtle:    var(--gold-50);
-  --color-brand-emphasis:  var(--gold-800);
+  --color-brand-default:   var(--brand-500);
+  --color-brand-hover:     var(--brand-600);
+  --color-brand-active:    var(--brand-700);
+  --color-brand-subtle:    var(--brand-50);
+  --color-brand-emphasis:  var(--brand-800);
 
   // Texto
   --color-text-primary:    var(--neutral-900);
@@ -17,22 +17,23 @@
   --color-text-tertiary:   var(--neutral-400);
   --color-text-disabled:   var(--neutral-300);
   --color-text-inverse:    var(--neutral-0);
-  --color-text-brand:      var(--gold-600);
-  --color-text-on-brand:   var(--neutral-900);
+  --color-text-brand:      var(--brand-600);
+  // El brand ahora es azul oscuro: el texto encima va en blanco.
+  --color-text-on-brand:   var(--neutral-0);
 
   // Fondos
   --color-bg-default:      #FDFCF8;
   --color-bg-subtle:       var(--neutral-50);
   --color-bg-surface:      var(--neutral-0);
   --color-bg-elevated:     var(--neutral-0);
-  --color-bg-brand:        var(--gold-500);
-  --color-bg-brand-subtle: var(--gold-50);
+  --color-bg-brand:        var(--brand-500);
+  --color-bg-brand-subtle: var(--brand-50);
 
   // Bordes
   --color-border-default:  var(--neutral-200);
   --color-border-strong:   var(--neutral-300);
-  --color-border-brand:    var(--gold-500);
-  --color-border-focus:    var(--gold-600);
+  --color-border-brand:    var(--brand-500);
+  --color-border-focus:    var(--brand-600);
 
   // Estados funcionales
   --color-success-bg:      var(--green-50);
@@ -54,29 +55,29 @@
 
 // Dark mode
 .dark {
-  --color-brand-default:   var(--gold-400);
-  --color-brand-hover:     var(--gold-300);
-  --color-brand-active:    var(--gold-200);
-  --color-brand-subtle:    var(--gold-950);
-  --color-brand-emphasis:  var(--gold-200);
+  --color-brand-default:   var(--brand-400);
+  --color-brand-hover:     var(--brand-300);
+  --color-brand-active:    var(--brand-200);
+  --color-brand-subtle:    var(--brand-950);
+  --color-brand-emphasis:  var(--brand-200);
 
   --color-text-primary:    var(--neutral-50);
   --color-text-secondary:  var(--neutral-400);
   --color-text-tertiary:   var(--neutral-500);
   --color-text-disabled:   var(--neutral-700);
   --color-text-inverse:    var(--neutral-900);
-  --color-text-brand:      var(--gold-400);
-  --color-text-on-brand:   var(--neutral-950);
+  --color-text-brand:      var(--brand-400);
+  --color-text-on-brand:   var(--neutral-0);
 
   --color-bg-default:      var(--neutral-950);
   --color-bg-subtle:       var(--neutral-900);
   --color-bg-surface:      var(--neutral-800);
   --color-bg-elevated:     var(--neutral-800);
-  --color-bg-brand:        var(--gold-500);
-  --color-bg-brand-subtle: var(--gold-950);
+  --color-bg-brand:        var(--brand-500);
+  --color-bg-brand-subtle: var(--brand-950);
 
   --color-border-default:  var(--neutral-800);
   --color-border-strong:   var(--neutral-700);
-  --color-border-brand:    var(--gold-400);
-  --color-border-focus:    var(--gold-400);
+  --color-border-brand:    var(--brand-400);
+  --color-border-focus:    var(--brand-400);
 }

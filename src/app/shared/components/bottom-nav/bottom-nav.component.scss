@@ -74,18 +74,18 @@
   // Estado activo
   &__item--active {
     .nav__icon--home {
-      fill: var(--gold-500);
+      fill: var(--brand-500);
     }
 
     // El ícono de usuario pinta sus formas con currentColor, por eso hay que
     // cambiar el color (no solo el fill del svg) para que se marque activo.
     .nav__icon--user {
-      color: var(--gold-500);
-      fill: var(--gold-500);
+      color: var(--brand-500);
+      fill: var(--brand-500);
     }
 
     .nav__label {
-      color: var(--gold-700);
+      color: var(--brand-700);
     }
   }
 }

@@ -31,10 +31,10 @@
   --space-10: 40px;
 
   // Gradientes de marca
-  --gradient-brand: linear-gradient(135deg, var(--gold-300) 0%, var(--gold-500) 100%);
-  --gradient-header: linear-gradient(180deg, var(--gold-300) 0%, var(--gold-100) 62%, transparent 100%);
-  --gradient-aura-lime: radial-gradient(circle at 70% 30%, var(--aura-lime) 0%, transparent 65%);
-  --gradient-aura-sky: radial-gradient(circle at 30% 75%, var(--aura-sky) 0%, transparent 65%);
+  --gradient-brand: linear-gradient(135deg, var(--brand-300) 0%, var(--brand-500) 100%);
+  --gradient-header: linear-gradient(180deg, var(--brand-300) 0%, var(--brand-100) 62%, transparent 100%);
+  --gradient-aura-blue: radial-gradient(circle at 30% 75%, var(--aura-blue) 0%, transparent 65%);
+  --gradient-aura-indigo: radial-gradient(circle at 25% 25%, var(--aura-indigo) 0%, transparent 60%);
+  --gradient-aura-orange: radial-gradient(circle at 70% 30%, var(--aura-orange) 0%, transparent 65%);
   --gradient-aura-peach: radial-gradient(circle at 75% 80%, var(--aura-peach) 0%, transparent 60%);
-  --gradient-aura-mint: radial-gradient(circle at 25% 25%, var(--aura-mint) 0%, transparent 60%);
 }

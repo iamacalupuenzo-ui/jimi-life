@@ -91,11 +91,11 @@
     border-radius: 50%;
     background: var(--color-text-tertiary);
     margin-top: 2px;
-    &--active { background: var(--gold-500); }
+    &--active { background: var(--brand-500); }
   }
 
   &--active {
-    .day-btn__num { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--gold-500); color: var(--neutral-900); }
+    .day-btn__num { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--brand-500); color: var(--neutral-900); }
     .day-btn__label { color: var(--color-text-primary); }
   }
 
@@ -188,7 +188,7 @@
     z-index: 1;
   }
 
-  &--latest .loc-item__dot { background: var(--gold-500); width: 16px; height: 16px; }
+  &--latest .loc-item__dot { background: var(--brand-500); width: 16px; height: 16px; }
 
   &__content { flex: 1; min-width: 0; }
 
@@ -204,9 +204,9 @@
     display: grid; place-items: center;
     width: 36px; height: 36px;
     border-radius: 50%;
-    background: var(--gold-50);
+    background: var(--brand-50);
     border: none;
-    color: var(--gold-600);
+    color: var(--brand-600);
     margin-top: 2px;
     -webkit-tap-highlight-color: transparent;
     svg { width: 18px; height: 18px; }
