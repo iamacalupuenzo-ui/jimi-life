@@ -1,0 +1,16 @@
+{
+  "mcpServers": {
+    "excalidraw-local": {
+      "type": "stdio",
+      "command": "uv",
+      "args": [
+        "run",
+        "--project",
+        "/c/Users/Enzo Macalupu/Documents/Herramientas/excalidraw-mcp",
+        "python",
+        "/c/Users/Enzo Macalupu/Documents/Herramientas/excalidraw-mcp/server.py"
+      ],
+      "env": {}
+    }
+  }
+}
