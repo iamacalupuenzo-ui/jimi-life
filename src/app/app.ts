@@ -5,6 +5,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop'
 import { filter } from 'rxjs'
 import { MobileShellComponent } from './shared/components/mobile-shell/mobile-shell.component'
 import { BottomNavComponent } from './shared/components/bottom-nav/bottom-nav.component'
+import { SplashOverlayComponent } from './shared/components/splash-overlay/splash-overlay.component'
 
 // Color de la barra de estado según la vista. Debe coincidir con lo que se
 // pinta en el borde superior de cada pantalla (meta name="theme-color").
@@ -15,7 +16,7 @@ const THEME_SPLASH = '#0A2E68' // fondo brand profundo del splash (= --brand-800
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, MobileShellComponent, BottomNavComponent],
+  imports: [RouterOutlet, MobileShellComponent, BottomNavComponent, SplashOverlayComponent],
   templateUrl: './app.html',
   styleUrl: './app.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
