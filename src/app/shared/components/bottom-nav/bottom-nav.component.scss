@@ -1,16 +1,20 @@
 :host {
-  position: fixed;
+  position: sticky;
   bottom: 0;
-  left: 50%;
-  transform: translateX(-50%);
-  width: 100%;
-  max-width: 430px;
   z-index: 50;
+  flex-shrink: 0;
   transition: transform 0.25s ease, visibility 0.25s ease;
 }
 
 :host(.host--hidden) {
-  transform: translateX(-50%) translateY(100%);
+  // Sacarlo del flujo del flex del shell: si se queda "sticky" (in-flow),
+  // su alto se sigue reservando aunque esté invisible y empuja el
+  // contenido hacia arriba, dejando un hueco vacío al fondo.
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  transform: translateY(100%);
   visibility: hidden;
 }
 

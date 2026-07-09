@@ -1,6 +1,6 @@
 // Shell móvil: full-screen en teléfono, marco centrado en desktop
 .shell {
-  min-height: 100dvh;
+  height: 100dvh;
   display: flex;
   justify-content: center;
   background: var(--color-bg-default);
@@ -9,10 +9,11 @@
     position: relative;
     width: 100%;
     max-width: 430px;
-    min-height: 100dvh;
+    height: 100dvh;
     display: flex;
     flex-direction: column;
     background: var(--color-bg-default);
+    overflow: hidden;
   }
 
   &__content {
@@ -20,8 +21,9 @@
     display: flex;
     flex-direction: column;
     min-height: 0;
-    // espacio para el bottom-nav flotante
-    padding-bottom: 104px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding-bottom: 0;
 
     // Sin bottom-nav (p.ej. /dispositivo) no hay nada que despejar
     &--no-clearance {
