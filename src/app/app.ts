@@ -11,6 +11,7 @@ import { BottomNavComponent } from './shared/components/bottom-nav/bottom-nav.co
 const THEME_HOME = '#9DBBF3'   // header del Home (= --brand-300)
 const THEME_CAMERA = '#000000' // vista de cámara (escáner)
 const THEME_LIGHT = '#FFFFFF'  // headers/fondos claros (detalle, perfil, etc.)
+const THEME_SPLASH = '#0A2E68' // fondo brand profundo del splash (= --brand-800)
 
 @Component({
   selector: 'app-root',
@@ -41,6 +42,7 @@ export class App {
 
   private themeColorFor(url: string): string {
     if (url.startsWith('/agregar-dispositivo/escanear')) return THEME_CAMERA
+    if (url.startsWith('/splash')) return THEME_SPLASH
     if (url.startsWith('/home')) return THEME_HOME
     return THEME_LIGHT
   }

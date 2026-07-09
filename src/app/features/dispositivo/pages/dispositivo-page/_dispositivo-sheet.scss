@@ -95,7 +95,7 @@
   }
 
   &--active {
-    .day-btn__num { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--brand-500); color: var(--neutral-900); }
+    .day-btn__num { display: grid; place-items: center; width: 36px; height: 36px; border-radius: 50%; background: var(--brand-500); color: var(--neutral-0); }
     .day-btn__label { color: var(--color-text-primary); }
   }
 

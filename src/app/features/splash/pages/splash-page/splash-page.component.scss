@@ -1,0 +1,77 @@
+:host {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  display: block;
+}
+
+.splash {
+  position: absolute;
+  inset: 0;
+  display: grid;
+  place-items: center;
+  overflow: hidden;
+  background:
+    radial-gradient(125% 90% at 50% 32%, var(--brand-600) 0%, var(--brand-800) 46%, var(--brand-950) 100%);
+  will-change: opacity, transform;
+}
+
+// Halo de color que respira detrás del logo.
+.splash__glow {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(94, 138, 232, 0.55) 0%, rgba(94, 138, 232, 0) 68%);
+  filter: blur(4px);
+  animation: splash-pulse 2.6s ease-in-out infinite;
+}
+
+// Aura tenue en las esquinas para dar profundidad.
+.splash__aura {
+  position: absolute;
+  inset: -25%;
+  background:
+    radial-gradient(circle at 22% 22%, rgba(94, 138, 232, 0.35) 0%, transparent 55%),
+    radial-gradient(circle at 80% 82%, rgba(18, 87, 204, 0.4) 0%, transparent 55%);
+  opacity: 0.9;
+}
+
+.splash__logo {
+  position: relative;
+  z-index: 1;
+  width: 200px;
+  height: auto;
+  filter: drop-shadow(0 8px 28px rgba(4, 20, 45, 0.45));
+
+  path {
+    fill: #ffffff;
+  }
+}
+
+// El origen de transformación debe ser el centro de cada grupo (no el del SVG)
+// para que el escalado/rotación del emblema se vea natural.
+.splash__emblem,
+.splash__word {
+  transform-box: fill-box;
+  transform-origin: 50% 50%;
+  opacity: 0;
+}
+
+@keyframes splash-pulse {
+  0%,
+  100% {
+    transform: scale(0.92);
+    opacity: 0.5;
+  }
+  50% {
+    transform: scale(1.12);
+    opacity: 0.85;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .splash__glow {
+    animation: none;
+  }
+}
