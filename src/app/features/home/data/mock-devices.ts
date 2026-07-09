@@ -11,7 +11,7 @@ export const MOCK_DEVICES: JimiDevice[] = [
     withYou: true,
     lastSeenLabel: 'Ahora',
     address: 'Jirón María Parado de Bellido, Magdalena del Mar, Lima',
-    aura: 'orange',
+    aura: 'blue',
   },
   {
     id: 'r002e-30754',

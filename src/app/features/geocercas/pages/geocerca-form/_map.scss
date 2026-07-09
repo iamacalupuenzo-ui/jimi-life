@@ -1,0 +1,83 @@
+.gform__map {
+  flex: 1 1 50%;
+  position: relative;
+  min-height: 0;
+}
+
+.gform__zone {
+  position: absolute;
+  top: 42%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 200px;
+  height: 200px;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.gform__zone-fill {
+  fill: var(--green-500);
+  fill-opacity: 0.22;
+  stroke: var(--green-500);
+  stroke-width: 2;
+}
+
+.gform__zone-dot {
+  fill: var(--green-500);
+}
+
+.gform__back,
+.gform__trash {
+  position: absolute;
+  top: var(--space-4);
+  z-index: 10;
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-surface);
+  box-shadow: var(--shadow-float);
+  color: var(--color-text-primary);
+
+  svg { width: 22px; height: 22px; }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+}
+
+.gform__back { left: var(--space-4); }
+.gform__trash { right: var(--space-4); color: var(--color-text-secondary); }
+
+.gform__map-ctrls {
+  position: absolute;
+  right: var(--space-3);
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  gap: var(--space-2);
+}
+
+.gform__map-btn {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: none;
+  border-radius: var(--radius-md);
+  background: var(--color-bg-surface);
+  box-shadow: var(--shadow-float);
+  color: var(--color-text-secondary);
+
+  svg { width: 20px; height: 20px; }
+
+  &:focus-visible {
+    outline: 2px solid var(--color-border-focus);
+    outline-offset: 2px;
+  }
+}

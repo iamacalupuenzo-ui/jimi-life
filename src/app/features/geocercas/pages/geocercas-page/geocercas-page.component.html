@@ -1,0 +1,60 @@
+<div class="geo">
+  <header class="geo__header">
+    <button class="geo__back" type="button" (click)="goBack()" aria-label="Volver">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <h1 class="geo__title">Geo Fences</h1>
+
+    <button class="geo__add" type="button" aria-label="Agregar geocerca" (click)="onAdd()">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+      </svg>
+    </button>
+  </header>
+
+  @if (geofences().length > 0) {
+    <div class="geo__list">
+      @for (geofence of geofences(); track geofence.id) {
+        <article class="geo-card">
+          <div class="geo-card__thumb" aria-hidden="true">
+            <svg class="geo-card__hex" viewBox="0 0 24 24" fill="none">
+              <path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z" style="fill: var(--green-500)" />
+            </svg>
+          </div>
+
+          <div class="geo-card__body">
+            <p class="geo-card__index">{{ formatIndex(geofence.index) }}</p>
+            <p class="geo-card__address">{{ geofence.address }}</p>
+          </div>
+
+          <button
+            class="geo-toggle"
+            [class.geo-toggle--active]="geofence.active"
+            type="button"
+            role="switch"
+            [attr.aria-checked]="geofence.active"
+            [attr.aria-label]="'Geocerca ' + formatIndex(geofence.index) + (geofence.active ? ' activada' : ' desactivada')"
+            (click)="toggle(geofence)"
+          >
+            <span class="geo-toggle__thumb"></span>
+          </button>
+        </article>
+      }
+    </div>
+  } @else {
+    <div class="geo-empty">
+      <svg class="geo-empty__illustration" viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+        <rect x="20" y="30" width="160" height="110" rx="16" style="fill: var(--neutral-100)" />
+        <rect x="20" y="30" width="160" height="110" rx="16" style="stroke: var(--neutral-200)" stroke-width="1.5" />
+        <path d="M20 75h160M80 30v110M130 30v110" style="stroke: var(--neutral-200)" stroke-width="2"/>
+        <path d="M100 52 132 68v38l-32 16-32-16V68l32-16Z" style="fill: var(--green-500)" opacity="0.9"/>
+        <path d="M100 52 132 68v38l-32 16-32-16V68l32-16Z" style="stroke: var(--neutral-0)" stroke-width="2"/>
+      </svg>
+      <p class="geo-empty__title">Todavía no tenés geocercas</p>
+      <p class="geo-empty__hint">Creá tu primera geocerca con el botón +</p>
+    </div>
+  }
+</div>

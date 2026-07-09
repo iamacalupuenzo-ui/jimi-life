@@ -35,4 +35,5 @@ export class HomePageComponent {
   onScan(): void {
     this.router.navigate(['/agregar-dispositivo', 'escanear'])
   }
+
 }

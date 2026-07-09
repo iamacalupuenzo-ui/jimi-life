@@ -1,0 +1,163 @@
+<div class="gform">
+  <div class="gform__map">
+    <app-device-map
+      [locations]="locations()"
+      [deviceImageUrl]="deviceImage()"
+      [showTrail]="false"
+      [userLocation]="null"
+      [focusRaise]="96"
+    />
+
+    <svg class="gform__zone" viewBox="0 0 200 200" aria-hidden="true">
+      @if (shape() === 'circle') {
+        <circle class="gform__zone-fill" cx="100" cy="100" r="90" />
+        <circle class="gform__zone-dot" cx="100" cy="10" r="6" />
+        <circle class="gform__zone-dot" cx="100" cy="190" r="6" />
+        <circle class="gform__zone-dot" cx="10" cy="100" r="6" />
+        <circle class="gform__zone-dot" cx="190" cy="100" r="6" />
+      } @else if (shape() === 'square') {
+        <rect class="gform__zone-fill" x="14" y="14" width="172" height="172" rx="6" />
+        <circle class="gform__zone-dot" cx="14" cy="14" r="6" />
+        <circle class="gform__zone-dot" cx="186" cy="14" r="6" />
+        <circle class="gform__zone-dot" cx="14" cy="186" r="6" />
+        <circle class="gform__zone-dot" cx="186" cy="186" r="6" />
+      } @else {
+        <polygon
+          class="gform__zone-fill"
+          points="190,100 145,177.9 55,177.9 10,100 55,22.1 145,22.1"
+        />
+        <circle class="gform__zone-dot" cx="190" cy="100" r="6" />
+        <circle class="gform__zone-dot" cx="145" cy="177.9" r="6" />
+        <circle class="gform__zone-dot" cx="55" cy="177.9" r="6" />
+        <circle class="gform__zone-dot" cx="10" cy="100" r="6" />
+        <circle class="gform__zone-dot" cx="55" cy="22.1" r="6" />
+        <circle class="gform__zone-dot" cx="145" cy="22.1" r="6" />
+      }
+    </svg>
+
+    <button class="gform__back" type="button" (click)="goBack()" aria-label="Volver">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <button class="gform__trash" type="button" (click)="onDelete()" aria-label="Eliminar geocerca">
+      <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+        <path d="M4 7h16M9 7V5a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2M8 7l1 13a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1l1-13" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </button>
+
+    <div class="gform__map-ctrls">
+      <button class="gform__map-btn" type="button" aria-label="Acercar zoom">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M12 5v14M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button class="gform__map-btn" type="button" aria-label="Alejar zoom">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path d="M5 12h14" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
+        </svg>
+      </button>
+      <button class="gform__map-btn" type="button" aria-label="Mi ubicación">
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.7"/>
+          <path d="M12 2v3M12 19v3M2 12h3M19 12h3" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="gform__sheet" #sheetEl>
+    <div
+      class="gform__grab"
+      role="button" tabindex="0"
+      aria-label="Arrastrar para expandir o contraer el panel"
+      (pointerdown)="onSheetGrab($event)"
+      (keydown.enter)="toggleSheet()"
+    >
+      <span class="gform__grab-bar"></span>
+    </div>
+
+    <div class="gform__sheet-body" #sheetBody>
+      <div class="gform-tabs">
+        <button
+          class="gform-tabs__item"
+          [class.gform-tabs__item--active]="activeTab() === 'safe'"
+          type="button"
+          (click)="setTab('safe')"
+        >Zona segura</button>
+        <button
+          class="gform-tabs__item"
+          [class.gform-tabs__item--active]="activeTab() === 'unsafe'"
+          type="button"
+          (click)="setTab('unsafe')"
+        >Zona insegura</button>
+      </div>
+
+      <div class="gform-fields">
+        <label class="gform-field">
+          <span class="gform-field__label">Nombre</span>
+          <input
+            class="gform-field__input"
+            type="text"
+            [value]="name()"
+            (input)="onNameChange($any($event.target).value)"
+            aria-label="Nombre de la geocerca"
+          />
+        </label>
+
+        <button class="gform-field gform-field--btn" type="button">
+          <span class="gform-field__label">Ubicación</span>
+          <span class="gform-field__value">{{ address() }}</span>
+          <svg class="gform-field__chevron" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+        </button>
+
+        <div class="gform-shape">
+          <span class="gform-shape__label">Forma</span>
+          <div class="gform-shape__options">
+            <button
+              class="shape-btn"
+              [class.shape-btn--active]="shape() === 'circle'"
+              type="button"
+              aria-label="Forma circular"
+              (click)="setShape('circle')"
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <circle cx="12" cy="12" r="8" stroke="currentColor" stroke-width="1.8"/>
+              </svg>
+            </button>
+            <button
+              class="shape-btn"
+              [class.shape-btn--active]="shape() === 'square'"
+              type="button"
+              aria-label="Forma cuadrada"
+              (click)="setShape('square')"
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="4" y="4" width="16" height="16" rx="2" stroke="currentColor" stroke-width="1.8"/>
+              </svg>
+            </button>
+            <button
+              class="shape-btn"
+              [class.shape-btn--active]="shape() === 'hexagon'"
+              type="button"
+              aria-label="Forma hexagonal"
+              (click)="setShape('hexagon')"
+            >
+              <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <path d="M12 2 21 7v10l-9 5-9-5V7l9-5Z" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <div class="gform-actions">
+        <button class="gform-btn gform-btn--ghost" type="button" (click)="goBack()">Cancelar</button>
+        <button class="gform-btn gform-btn--primary" type="button" (click)="onSave()">Guardar</button>
+      </div>
+    </div>
+  </div>
+</div>

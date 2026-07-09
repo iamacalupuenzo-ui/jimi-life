@@ -1,59 +1,48 @@
 import {
   AfterViewInit, ChangeDetectionStrategy, Component, ElementRef,
-  OnInit, ViewChild, computed, inject, signal,
+  ViewChild, inject, signal,
 } from '@angular/core'
-import { ActivatedRoute, Router } from '@angular/router'
-import { DeviceMapComponent } from '../../components/device-map/device-map.component'
-import { IconComponent } from '../../../../shared/components/icon/icon.component'
-import { MOCK_DEVICES } from '../../../home/data/mock-devices'
-import { MOCK_LOCATIONS } from '../../data/mock-locations'
-import { JimiDevice } from '../../../home/models/device.model'
-import { LocationPoint } from '../../models/location.model'
+import { Router } from '@angular/router'
+import { DeviceMapComponent } from '../../../dispositivo/components/device-map/device-map.component'
+import { LocationPoint } from '../../../dispositivo/models/location.model'
+
+type GeofenceTab = 'safe' | 'unsafe'
+type GeofenceShape = 'circle' | 'square' | 'hexagon'
+
+const MOCK_ZONE_LOCATION: LocationPoint = {
+  lat: -12.07,
+  lng: -77.05,
+  address: 'Pasaje José Quiñones, Los Patricios...',
+  timestamp: '16:57',
+  dateLabel: '2026-07-07',
+  isBluetoothSync: true,
+  isLatest: true,
+}
 
 @Component({
-  selector: 'app-dispositivo-detail',
+  selector: 'app-geocerca-form',
   standalone: true,
-  imports: [DeviceMapComponent, IconComponent],
-  templateUrl: './dispositivo-detail.component.html',
-  styleUrl: './dispositivo-detail.component.scss',
+  imports: [DeviceMapComponent],
+  templateUrl: './geocerca-form.component.html',
+  styleUrl: './geocerca-form.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DispositivoDetailComponent implements OnInit, AfterViewInit {
+export class GeocercaFormComponent implements AfterViewInit {
   private readonly router = inject(Router)
-  private readonly route = inject(ActivatedRoute)
 
   @ViewChild('sheetEl') private sheetRef!: ElementRef<HTMLElement>
   @ViewChild('sheetBody') private bodyRef!: ElementRef<HTMLElement>
 
-  readonly device = signal<JimiDevice | null>(null)
+  readonly locations = signal<LocationPoint[]>([MOCK_ZONE_LOCATION])
+  readonly activeTab = signal<GeofenceTab>('safe')
+  readonly name = signal('01')
+  readonly address = signal(MOCK_ZONE_LOCATION.address)
+  readonly shape = signal<GeofenceShape>('hexagon')
+  readonly deviceImage = signal('devices/tracker-pb713e.svg')
   readonly sheetExpanded = signal(true)
-
-  readonly isConnected = computed(() => this.device()?.connection === 'connected')
-
-  readonly batteryLow = computed(() => {
-    const battery = this.device()?.battery
-    return battery !== null && battery !== undefined && battery <= 20
-  })
-
-  readonly locations = computed<LocationPoint[]>(() =>
-    MOCK_LOCATIONS['2026-07-07'] ?? [],
-  )
-
-  readonly latestAddress = computed(() => this.locations()[0]?.address ?? '')
-
-  // "Mi ubicación" comparte punto con el dispositivo (está Contigo).
-  readonly userLocation = computed(() => {
-    const latest = this.locations()[0]
-    return latest ? { lat: latest.lat, lng: latest.lng } : null
-  })
 
   private collapseY = 0
   private currentY = 0
-
-  ngOnInit(): void {
-    const id = this.route.snapshot.paramMap.get('id')
-    this.device.set(MOCK_DEVICES.find((d) => d.id === id) ?? MOCK_DEVICES[0])
-  }
 
   ngAfterViewInit(): void {
     this.measureCollapseY()
@@ -123,16 +112,27 @@ export class DispositivoDetailComponent implements OnInit, AfterViewInit {
     handle.addEventListener('pointerup', onUp as EventListener)
   }
 
+  setTab(tab: GeofenceTab): void {
+    this.activeTab.set(tab)
+  }
+
+  setShape(shape: GeofenceShape): void {
+    this.shape.set(shape)
+  }
+
+  onNameChange(value: string): void {
+    this.name.set(value)
+  }
+
   goBack(): void {
-    this.router.navigate(['/home'])
+    this.router.navigate(['/geocercas'])
   }
 
-  goToPlayback(): void {
-    const id = this.route.snapshot.paramMap.get('id')
-    this.router.navigate(['/dispositivo', id, 'playback'])
+  onDelete(): void {
+    // Maqueta: eliminar geocerca aún no implementado.
   }
 
-  goToGeofences(): void {
+  onSave(): void {
     this.router.navigate(['/geocercas'])
   }
 }

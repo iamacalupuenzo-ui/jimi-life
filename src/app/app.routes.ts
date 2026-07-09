@@ -26,5 +26,10 @@ export const routes: Routes = [
         (m) => m.AGREGAR_DISPOSITIVO_ROUTES,
       ),
   },
+  {
+    path: 'geocercas',
+    loadChildren: () =>
+      import('./features/geocercas/geocercas.routes').then((m) => m.GEOFENCES_ROUTES),
+  },
   { path: '**', redirectTo: 'home' },
 ]

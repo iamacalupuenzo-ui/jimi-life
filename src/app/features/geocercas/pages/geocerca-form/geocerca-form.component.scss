@@ -1,0 +1,17 @@
+@use './map';
+@use './panel';
+
+// El host no debe generar su propia caja: .gform queda como hijo flex directo
+// del shell y su flex:1 1 auto participa del layout, igual que dispositivo-detail.
+:host {
+  display: contents;
+}
+
+.gform {
+  position: relative;
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
