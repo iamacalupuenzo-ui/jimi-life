@@ -1,7 +1,7 @@
 import { Routes } from '@angular/router'
 
 export const routes: Routes = [
-  { path: '', pathMatch: 'full', redirectTo: 'splash' },
+  { path: '', pathMatch: 'full', redirectTo: 'home' },
   {
     path: 'splash',
     loadChildren: () => import('./features/splash/splash.routes').then((m) => m.SPLASH_ROUTES),
