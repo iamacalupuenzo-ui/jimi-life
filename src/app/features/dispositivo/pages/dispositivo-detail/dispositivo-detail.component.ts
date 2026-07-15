@@ -24,9 +24,10 @@ export class DispositivoDetailComponent implements OnInit, AfterViewInit {
 
   @ViewChild('sheetEl') private sheetRef!: ElementRef<HTMLElement>
   @ViewChild('sheetBody') private bodyRef!: ElementRef<HTMLElement>
+  @ViewChild(DeviceMapComponent) private mapRef?: DeviceMapComponent
 
   readonly device = signal<JimiDevice | null>(null)
-  readonly sheetExpanded = signal(true)
+  readonly sheetExpanded = signal(false)
 
   readonly isConnected = computed(() => this.device()?.connection === 'connected')
 
@@ -57,6 +58,7 @@ export class DispositivoDetailComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.measureCollapseY()
+    this.translate(this.collapseY)
   }
 
   private measureCollapseY(): void {
@@ -73,12 +75,14 @@ export class DispositivoDetailComponent implements OnInit, AfterViewInit {
   expandSheet(): void {
     this.sheetExpanded.set(true)
     this.translate(0, true)
+    setTimeout(() => this.mapRef?.refit(), 360)
   }
 
   collapseSheet(): void {
     this.measureCollapseY()
     this.sheetExpanded.set(false)
     this.translate(this.collapseY, true)
+    setTimeout(() => this.mapRef?.refit(), 360)
   }
 
   toggleSheet(): void {

@@ -21,9 +21,10 @@ import { animate } from 'motion'
 export class SplashOverlayComponent implements AfterViewInit {
   readonly hidden = signal(false)
 
-  private readonly root = viewChild.required<ElementRef<HTMLElement>>('root')
-  private readonly emblem = viewChild.required<ElementRef<SVGGElement>>('emblem')
-  private readonly word = viewChild.required<ElementRef<SVGGElement>>('word')
+  private readonly root    = viewChild.required<ElementRef<HTMLElement>>('root')
+  private readonly emblem  = viewChild.required<ElementRef<SVGGElement>>('emblem')
+  private readonly word    = viewChild.required<ElementRef<SVGGElement>>('word')
+  private readonly tagline = viewChild.required<ElementRef<HTMLElement>>('tagline')
 
   ngAfterViewInit(): void {
     const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches
@@ -40,6 +41,7 @@ export class SplashOverlayComponent implements AfterViewInit {
     try {
       this.emblem().nativeElement.classList.add('splash__emblem--intro')
       this.word().nativeElement.classList.add('splash__word--intro')
+      this.tagline().nativeElement.classList.add('splash__tagline--intro')
     } catch {
       // El logo ya es visible por CSS aunque la clase no se aplique.
     }

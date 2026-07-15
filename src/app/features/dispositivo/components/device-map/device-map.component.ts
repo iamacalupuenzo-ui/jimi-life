@@ -1,6 +1,6 @@
 import {
   ChangeDetectionStrategy, Component, ElementRef, OnDestroy,
-  OnInit, ViewChild, input, output,
+  OnInit, ViewChild, effect, input, output,
 } from '@angular/core'
 import * as L from 'leaflet'
 import { LocationPoint } from '../../models/location.model'
@@ -15,6 +15,15 @@ import { LocationPoint } from '../../models/location.model'
 export class DeviceMapComponent implements OnInit, OnDestroy {
   @ViewChild('mapEl', { static: true }) mapEl!: ElementRef<HTMLDivElement>
 
+  constructor() {
+    // Re-renderiza markers cuando cambian las ubicaciones (p.ej. el usuario selecciona otro día).
+    // El guard `this.map` evita que se ejecute antes de ngOnInit.
+    effect(() => {
+      const points = this.locations()
+      if (this.map) this.renderMarkers(points)
+    })
+  }
+
   readonly locations = input.required<LocationPoint[]>()
   readonly deviceImageUrl = input<string>('')
   /** false = solo el dispositivo (última ubicación), sin la traza histórica. */
@@ -25,6 +34,8 @@ export class DeviceMapComponent implements OnInit, OnDestroy {
   readonly focusRaise = input<number>(0)
   /** Padding inferior del encuadre: reserva el alto del bottom sheet. */
   readonly fitPaddingBottom = input<number>(60)
+  /** Padding superior del encuadre: reserva el alto del header de cada página. */
+  readonly fitPaddingTop = input<number>(110)
   readonly markerClicked = output<LocationPoint>()
 
   private map!: L.Map
@@ -59,6 +70,15 @@ export class DeviceMapComponent implements OnInit, OnDestroy {
     this.renderMarkers(points)
   }
 
+  /** Re-encuadra el mapa con los paddings actuales (llamar tras cambio de sheet). */
+  refit(): void {
+    if (!this.map) return
+    const points = this.locations()
+    const visible = this.showTrail() ? points : points.slice(0, 1)
+    const user = this.userLocation()
+    this.fitView(visible, user)
+  }
+
   renderMarkers(points: LocationPoint[]): void {
     this.markers.forEach((m) => m.remove())
     this.markers = []
@@ -68,8 +88,8 @@ export class DeviceMapComponent implements OnInit, OnDestroy {
 
     visible.forEach((point, i) => {
       const isLatest = i === 0
-      const icon = isLatest ? this.heroIcon() : this.dotIcon()
-      const marker = L.marker([point.lat, point.lng], { icon })
+      const icon = isLatest ? this.heroIcon(point.timestamp) : this.dotIcon()
+      const marker = L.marker([point.lat, point.lng], { icon, zIndexOffset: isLatest ? 1000 : -1000 })
         .addTo(this.map)
         .on('click', () => this.markerClicked.emit(point))
       this.markers.push(marker)
@@ -109,7 +129,7 @@ export class DeviceMapComponent implements OnInit, OnDestroy {
     }
 
     this.map.fitBounds(bounds, {
-      paddingTopLeft: [50, 110],
+      paddingTopLeft: [50, this.fitPaddingTop()],
       paddingBottomRight: [50, this.fitPaddingBottom()],
       maxZoom: 16,
     })
@@ -129,31 +149,48 @@ export class DeviceMapComponent implements OnInit, OnDestroy {
     })
   }
 
-  // Marker principal: imagen del dispositivo en círculo dorado
-  private heroIcon(): L.DivIcon {
+  // Marker principal: imagen del dispositivo en círculo con badge de hora
+  private heroIcon(timestamp: string): L.DivIcon {
     const img = this.deviceImageUrl()
     return L.divIcon({
       className: '',
       html: `
         <div class="map-marker map-marker--hero">
-          <div class="map-marker__pulse"></div>
-          <div class="map-marker__circle">
-            <img src="${img}" alt="device" />
+          <div class="map-marker__time-badge">${timestamp}</div>
+          <div class="map-marker__device">
+            <div class="map-marker__pulse"></div>
+            <div class="map-marker__circle">
+              <img src="${img}" alt="device" />
+            </div>
           </div>
           <div class="map-marker__tip"></div>
         </div>`,
-      iconSize: [64, 76],
-      iconAnchor: [32, 76],
+      iconSize: [84, 108],
+      iconAnchor: [42, 108],
     })
   }
 
-  // Marker secundario: punto dorado
+  // Marker secundario: speech bubble semi-transparente (path unificado, sin solapamiento)
   private dotIcon(): L.DivIcon {
     return L.divIcon({
       className: '',
-      html: `<div class="map-marker map-marker--dot"><div class="map-marker__dot"></div></div>`,
-      iconSize: [20, 20],
-      iconAnchor: [10, 10],
+      html: `
+        <svg class="map-marker map-marker--balloon" width="24" height="30"
+             viewBox="0 0 24 30" xmlns="http://www.w3.org/2000/svg">
+          <!--
+            Path unificado: arco grande (círculo) + V de la pestaña.
+            M15 22.6  → punto derecho de la base de la pestaña (sobre el círculo)
+            A11 11 0 1 0 9 22.6 → arco largo antihorario hasta el punto izquierdo
+            L12 30 Z  → punta de la pestaña y cierre
+          -->
+          <path d="M15 22.6 A11 11 0 1 0 9 22.6 L12 30 Z"
+                fill="rgba(18,87,204,0.32)"
+                stroke="#1257CC"
+                stroke-width="1.8"
+                stroke-linejoin="round"/>
+        </svg>`,
+      iconSize: [24, 30],
+      iconAnchor: [12, 30],
     })
   }
 }

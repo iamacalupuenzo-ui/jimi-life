@@ -6,7 +6,8 @@
       <app-device-map
         [locations]="locations()"
         [deviceImageUrl]="device()!.imageUrl"
-        [fitPaddingBottom]="240"
+        [fitPaddingBottom]="sheetPadding()"
+        [fitPaddingTop]="80"
       />
     }
   </div>

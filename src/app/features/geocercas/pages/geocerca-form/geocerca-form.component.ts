@@ -1,6 +1,6 @@
 import {
   AfterViewInit, ChangeDetectionStrategy, Component, ElementRef,
-  ViewChild, inject, signal,
+  ViewChild, computed, inject, signal,
 } from '@angular/core'
 import { Router } from '@angular/router'
 import { DeviceMapComponent } from '../../../dispositivo/components/device-map/device-map.component'
@@ -32,20 +32,37 @@ export class GeocercaFormComponent implements AfterViewInit {
 
   @ViewChild('sheetEl') private sheetRef!: ElementRef<HTMLElement>
   @ViewChild('sheetBody') private bodyRef!: ElementRef<HTMLElement>
+  @ViewChild(DeviceMapComponent) private mapRef?: DeviceMapComponent
 
   readonly locations = signal<LocationPoint[]>([MOCK_ZONE_LOCATION])
   readonly activeTab = signal<GeofenceTab>('safe')
   readonly name = signal('01')
   readonly address = signal(MOCK_ZONE_LOCATION.address)
   readonly shape = signal<GeofenceShape>('hexagon')
-  readonly deviceImage = signal('devices/tracker-pb713e.svg')
+  readonly deviceImage = signal('devices/bicycle.svg')
   readonly sheetExpanded = signal(true)
+
+  /**
+   * focusRaise calculado en ngAfterViewInit con la altura real del sheet.
+   * Fórmula: sheetHeight / 2 → centra el marcador en el espacio visible encima del sheet.
+   */
+  private readonly _focusExpanded = signal(160)
+  private readonly _focusCollapsed = signal(40)
+  readonly focusPadding = computed(() =>
+    this.sheetExpanded() ? this._focusExpanded() : this._focusCollapsed(),
+  )
 
   private collapseY = 0
   private currentY = 0
 
   ngAfterViewInit(): void {
     this.measureCollapseY()
+    // Calcula el raise óptimo a partir del tamaño real del DOM
+    const sheetH = this.sheetRef.nativeElement.offsetHeight
+    this._focusExpanded.set(Math.round(sheetH / 2))
+    // Colapsado: solo queda visible el grab (~36 px); raise mínimo para no subir demasiado
+    const grabH = sheetH - this.collapseY
+    this._focusCollapsed.set(Math.round(grabH / 2))
   }
 
   private measureCollapseY(): void {
@@ -62,12 +79,14 @@ export class GeocercaFormComponent implements AfterViewInit {
   expandSheet(): void {
     this.sheetExpanded.set(true)
     this.translate(0, true)
+    setTimeout(() => this.mapRef?.refit(), 360)
   }
 
   collapseSheet(): void {
     this.measureCollapseY()
     this.sheetExpanded.set(false)
     this.translate(this.collapseY, true)
+    setTimeout(() => this.mapRef?.refit(), 360)
   }
 
   toggleSheet(): void {

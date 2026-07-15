@@ -9,6 +9,11 @@ import { MOCK_DEVICES } from '../../../home/data/mock-devices'
 import { MOCK_DAYS, MOCK_LOCATIONS } from '../../data/mock-locations'
 import { JimiDevice } from '../../../home/models/device.model'
 
+/** Padding inferior cuando el sheet está colapsado (grab + day-picker visibles). */
+const SHEET_PADDING_COLLAPSED = 100
+/** Padding inferior cuando el sheet está expandido (cubre ~52 vh). */
+const SHEET_PADDING_EXPANDED  = 400
+
 @Component({
   selector: 'app-dispositivo-page',
   standalone: true,
@@ -21,13 +26,19 @@ export class DispositivoPageComponent implements OnInit, AfterViewInit {
   private readonly router = inject(Router)
   private readonly route = inject(ActivatedRoute)
 
-  @ViewChild('sheetEl') private sheetRef!: ElementRef<HTMLElement>
+  @ViewChild('sheetEl')   private sheetRef!: ElementRef<HTMLElement>
   @ViewChild('sheetBody') private bodyRef!: ElementRef<HTMLElement>
+  @ViewChild(DeviceMapComponent) private mapRef?: DeviceMapComponent
 
-  readonly device = signal<JimiDevice | null>(null)
-  readonly days = signal<DayTab[]>(MOCK_DAYS)
-  readonly activeDay = signal<string>('2026-07-07')
-  readonly sheetExpanded = signal(true)
+  readonly device      = signal<JimiDevice | null>(null)
+  readonly days        = signal<DayTab[]>(MOCK_DAYS)
+  readonly activeDay   = signal<string>('2026-07-07')
+  readonly sheetExpanded = signal(false)
+
+  /** Padding inferior del mapa según el estado del sheet. */
+  readonly sheetPadding = computed(() =>
+    this.sheetExpanded() ? SHEET_PADDING_EXPANDED : SHEET_PADDING_COLLAPSED,
+  )
 
   readonly locations = computed<LocationPoint[]>(() =>
     MOCK_LOCATIONS[this.activeDay()] ?? [],
@@ -43,6 +54,8 @@ export class DispositivoPageComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit(): void {
     this.measureCollapseY()
+    // Empieza colapsado sin animación
+    this.translate(this.collapseY)
     const activeBtn = this.sheetRef.nativeElement
       .querySelector('.day-btn--active') as HTMLElement | null
     activeBtn?.scrollIntoView({ behavior: 'auto', inline: 'center', block: 'nearest' })
@@ -62,12 +75,15 @@ export class DispositivoPageComponent implements OnInit, AfterViewInit {
   expandSheet(): void {
     this.sheetExpanded.set(true)
     this.translate(0, true)
+    // Refit tras la animación del sheet (350 ms)
+    setTimeout(() => this.mapRef?.refit(), 360)
   }
 
   collapseSheet(): void {
     this.measureCollapseY()
     this.sheetExpanded.set(false)
     this.translate(this.collapseY, true)
+    setTimeout(() => this.mapRef?.refit(), 360)
   }
 
   toggleSheet(): void {

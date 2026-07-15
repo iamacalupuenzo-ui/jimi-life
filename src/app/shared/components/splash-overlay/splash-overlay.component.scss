@@ -42,9 +42,16 @@
   opacity: 0.9;
 }
 
-.splash__logo {
+.splash__brand {
   position: relative;
   z-index: 1;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0;
+}
+
+.splash__logo {
   width: 200px;
   height: auto;
   filter: drop-shadow(0 8px 28px rgba(4, 20, 45, 0.45));
@@ -52,6 +59,20 @@
   path {
     fill: #ffffff;
   }
+}
+
+.splash__tagline {
+  margin: 0;
+  font-family: var(--font-sans);
+  font-size: 15px;
+  font-weight: 400;
+  letter-spacing: 0.4px;
+  color: rgba(255, 255, 255, 0.55);
+  text-align: center;
+}
+
+.splash__tagline--intro {
+  animation: splash-tagline-in 0.55s cubic-bezier(0.16, 1, 0.3, 1) 1.15s both;
 }
 
 // El origen de transformación debe ser el centro de cada grupo (no el del SVG)
@@ -92,6 +113,18 @@
   from {
     opacity: 0;
     transform: translateY(20px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes splash-tagline-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px);
   }
 
   to {

@@ -5,10 +5,14 @@
       [deviceImageUrl]="deviceImage()"
       [showTrail]="false"
       [userLocation]="null"
-      [focusRaise]="96"
+      [focusRaise]="focusPadding()"
     />
 
-    <svg class="gform__zone" viewBox="0 0 200 200" aria-hidden="true">
+    <svg class="gform__zone"
+         viewBox="0 0 200 200"
+         aria-hidden="true"
+         [style.top]="'calc(50% - ' + focusPadding() + 'px)'"
+    >
       @if (shape() === 'circle') {
         <circle class="gform__zone-fill" cx="100" cy="100" r="90" />
         <circle class="gform__zone-dot" cx="100" cy="10" r="6" />
