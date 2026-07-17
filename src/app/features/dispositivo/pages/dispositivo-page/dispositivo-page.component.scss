@@ -23,7 +23,7 @@
 
   &__back, &__settings {
     position: absolute;
-    top: var(--space-6);
+    top: calc(env(safe-area-inset-top, 0px) + var(--space-6));
     z-index: 10;
     display: grid;
     place-items: center;
