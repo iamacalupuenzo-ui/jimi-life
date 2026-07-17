@@ -1,8 +1,7 @@
-// absolute (no fixed): se ancla a .shell__viewport (position: relative), el
-// ancestro posicionado más cercano. Así queda confinado al marco de 430px en
-// desktop y sigue ocupando toda la pantalla en móvil (el viewport ya mide 100dvh).
+// fixed: cubre toda la pantalla física incluyendo las safe-areas de iOS,
+// donde position:absolute (anclada al shell__viewport) no llega a los bordes.
 :host {
-  position: absolute;
+  position: fixed;
   inset: 0;
   z-index: 200;
   display: block;
