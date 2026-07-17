@@ -139,4 +139,8 @@ export class DispositivoDetailComponent implements OnInit, AfterViewInit {
   goToGeofences(): void {
     this.router.navigate(['/geocercas'])
   }
+
+  goToAlerts(): void {
+    this.router.navigate(['/alertas'])
+  }
 }

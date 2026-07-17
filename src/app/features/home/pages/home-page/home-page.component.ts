@@ -36,4 +36,8 @@ export class HomePageComponent {
     this.router.navigate(['/agregar-dispositivo', 'escanear'])
   }
 
+  onAlerts(): void {
+    this.router.navigate(['/alertas'])
+  }
+
 }

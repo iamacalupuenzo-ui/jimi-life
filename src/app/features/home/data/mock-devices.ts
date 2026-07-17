@@ -3,7 +3,7 @@ import { JimiDevice } from '../models/device.model'
 export const MOCK_DEVICES: JimiDevice[] = [
   {
     id: 'pb713e-12090',
-    name: 'PB713E-12090',
+    name: 'Bicicleta montañera',
     model: 'Jimi Tracker LTE',
     imageUrl: 'devices/bicycle.svg',
     battery: 96,
@@ -15,8 +15,8 @@ export const MOCK_DEVICES: JimiDevice[] = [
   },
   {
     id: 'r002e-30754',
-    name: 'R002E-30754',
-    model: 'Jimi Smart Ring',
+    name: 'Bicicleta eléctrica',
+    model: 'Jimi Tracker LTE',
     imageUrl: 'devices/bicycle.svg',
     battery: 42,
     connection: 'disconnected',

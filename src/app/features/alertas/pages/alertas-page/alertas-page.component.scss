@@ -1,0 +1,235 @@
+:host { display: contents; }
+
+.alerts {
+  flex: 1 1 auto;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  background: var(--neutral-100);
+  overflow: hidden;
+
+  // ── Header ───────────────────────────────────────────
+  &__header {
+    flex-shrink: 0;
+    background: transparent;
+    z-index: 10;
+  }
+
+  &__topbar {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    padding: calc(env(safe-area-inset-top, 0px) + var(--space-4)) var(--space-3) var(--space-4);
+  }
+
+  &__back {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-md);
+    color: var(--color-text-primary);
+    svg { width: 22px; height: 22px; }
+    &:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+  }
+
+  // ── Tabs ─────────────────────────────────────────────
+  &__tabs {
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    flex: 1;
+    min-width: 0;
+  }
+
+  &__tab {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 3px;
+    padding: 0;
+    border: none;
+    background: transparent;
+    font-family: var(--font-sans);
+    font-size: 15px;
+    font-weight: 600;
+    color: var(--color-text-tertiary);
+    letter-spacing: -0.01em;
+    cursor: pointer;
+    transition: color 0.15s ease, font-size 0.15s ease;
+
+    &--active {
+      font-size: 20px;
+      font-weight: 700;
+      color: var(--color-text-primary);
+    }
+
+    &:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 4px; border-radius: 4px; }
+  }
+
+  // Punto rojo de no leídos
+  &__badge {
+    display: inline-block;
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--red-500);
+    flex-shrink: 0;
+    margin-top: -10px;
+  }
+
+  // ── Iconos de acción ─────────────────────────────────
+  &__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    flex-shrink: 0;
+  }
+
+  &__action-btn {
+    display: grid;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    border: none;
+    background: transparent;
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+    svg { width: 20px; height: 20px; }
+    &:focus-visible { outline: 2px solid var(--color-border-focus); outline-offset: 2px; }
+  }
+
+  // ── Cuerpo scrolleable ───────────────────────────────
+  &__body {
+    flex: 1 1 auto;
+    min-height: 0;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: none;
+    padding: var(--space-4) var(--space-4) calc(env(safe-area-inset-bottom, 0px) + var(--space-4));
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-5);
+    &::-webkit-scrollbar { display: none; }
+  }
+
+  // ── Grupo de fecha ───────────────────────────────────
+  &__group { display: flex; flex-direction: column; gap: var(--space-2); }
+
+  &__date-label {
+    margin: 0;
+    font-size: 13px;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+    padding: 0 var(--space-1);
+  }
+
+  &__card {
+    background: var(--color-bg-surface);
+    border-radius: var(--radius-md);
+    box-shadow: 0 1px 2px rgba(26, 24, 20, 0.04);
+    overflow: hidden;
+  }
+
+  &__divider {
+    height: 1px;
+    background: var(--neutral-100);
+    margin: 0 var(--space-4) 0 calc(var(--space-4) + 44px + var(--space-3));
+  }
+
+  // ── Empty state ──────────────────────────────────────
+  &__empty {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-3);
+    padding: var(--space-10);
+    svg { width: 80px; height: 80px; }
+  }
+
+  &__empty-text {
+    margin: 0;
+    font-size: 15px;
+    font-weight: 500;
+    color: var(--color-text-tertiary);
+  }
+}
+
+// ── Alert item ───────────────────────────────────────
+.alert-item {
+  display: flex;
+  align-items: center;
+  gap: var(--space-3);
+  padding: var(--space-3) var(--space-4);
+  min-height: 64px;
+
+  &__icon-wrap {
+    position: relative;
+    flex-shrink: 0;
+  }
+
+  &__chip {
+    display: grid;
+    place-items: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+
+    &.chip--blue  { background: var(--blue-50);  color: var(--blue-500); }
+    &.chip--green { background: var(--green-50); color: var(--green-500); }
+    &.chip--red   { background: var(--red-50);   color: var(--red-500); }
+  }
+
+  &__svg { width: 22px; height: 22px; }
+
+  &__unread-dot {
+    position: absolute;
+    top: 1px;
+    right: 1px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--red-500);
+    border: 1.5px solid var(--color-bg-surface);
+  }
+
+  &__content {
+    flex: 1;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+
+  &__title {
+    margin: 0;
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--color-text-primary);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+
+  &__meta {
+    font-size: 12px;
+    font-weight: 400;
+    color: var(--color-text-secondary);
+  }
+
+  // Miniatura de mapa
+  &__map {
+    flex-shrink: 0;
+    width: 60px;
+    height: 46px;
+    border-radius: var(--radius-sm);
+    overflow: hidden;
+    background: #E8E5DF;
+    svg { width: 100%; height: 100%; display: block; }
+  }
+}

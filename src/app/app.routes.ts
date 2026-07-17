@@ -31,5 +31,10 @@ export const routes: Routes = [
     loadChildren: () =>
       import('./features/geocercas/geocercas.routes').then((m) => m.GEOFENCES_ROUTES),
   },
+  {
+    path: 'alertas',
+    loadChildren: () =>
+      import('./features/alertas/alertas.routes').then((m) => m.ALERTAS_ROUTES),
+  },
   { path: '**', redirectTo: 'home' },
 ]
